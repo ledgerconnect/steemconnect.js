@@ -1,0 +1,17 @@
+{
+  "name": "steemconnect",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "AdCpm <fabien@adcpm.com> (https://github.com/adcpm)",
+  "license": "ISC",
+  "dependencies": {
+    "bigi": "^1.4.2",
+    "bs58": "^3.0.0",
+    "crypto": "0.0.3",
+    "ecurve": "^1.0.3"
+  }
+}

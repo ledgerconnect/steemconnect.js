@@ -1,0 +1,18 @@
+scr
+lib
+.idea
+.save
+*.css.map
+*.css
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directory
+# https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
+node_modules
