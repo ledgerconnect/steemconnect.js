@@ -1,10 +1,10 @@
 var SteemConnect = require('./lib/steemconnect'),
 	steemConnect = new SteemConnect();
 
-var isValid = steemConnect.isValid('ned', '********',
+var isValid = steemConnect.isValid('ned', '****************',
 	{
-		posting: [["STM7SWWzw9LbzMvvS6WukeXNSqNSZAG5GJbh5u88DT7jGCWdrvgh1", 1]],
-		active: [["STM84JpLMeip7X1F1SJNkr2d45tUvavR1LkSJi7NHRTrmhhweyvrb", 1]]
+		posting: [["STM7H7yZfed2GqkgdLuYy3VVrmQLV4htbiu1WGouRHsjjD4Kq1MvQ", 1]],
+		active: [["STM7sw22HqsXbz7D2CmJfmMwt9rimtk518dRzsR1f8Cgw52dQR1pR", 1]]
 	}
 );
 
