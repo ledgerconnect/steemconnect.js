@@ -1,17 +1,35 @@
 {
   "name": "steemconnect",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adcpm/steemconnect.git"
+  },
+  "keywords": [
+    "steem",
+    "steemit",
+    "blockchain",
+    "steemjs",
+    "steemconnect"
+  ],
   "author": "AdCpm <fabien@adcpm.com> (https://github.com/adcpm)",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adcpm/steemconnect/issues"
+  },
+  "homepage": "https://github.com/adcpm/steemconnect#readme",
   "dependencies": {
     "bigi": "^1.4.2",
     "bs58": "^3.0.0",
     "crypto": "0.0.3",
     "ecurve": "^1.0.3"
-  }
+  },
+  "contributors": [
+    "Fabien (https://github.com/adcpm)"
+  ]
 }
