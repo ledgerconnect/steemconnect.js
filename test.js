@@ -4,5 +4,5 @@ var username = 'USERNAME';
 var password = 'PASSWORD';
 
 steemConnect.token.get(username, password, function(err, token){
-	console.log(token);
+	console.log(err, token);
 });
