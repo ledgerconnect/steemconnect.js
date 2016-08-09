@@ -1,11 +1,8 @@
-var SteemConnect = require('./lib/steemconnect'),
-	steemConnect = new SteemConnect();
+var steemConnect = require('./lib/steemconnect');
 
-var isValid = steemConnect.isValid('ned', '****************',
-	{
-		posting: [["STM7H7yZfed2GqkgdLuYy3VVrmQLV4htbiu1WGouRHsjjD4Kq1MvQ", 1]],
-		active: [["STM7sw22HqsXbz7D2CmJfmMwt9rimtk518dRzsR1f8Cgw52dQR1pR", 1]]
-	}
-);
+var username = 'USERNAME';
+var password = 'PASSWORD';
 
-console.log(isValid);
+steemConnect.token.get(username, password, function(err, token){
+	console.log(token);
+});
