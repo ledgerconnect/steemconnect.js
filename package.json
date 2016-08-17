@@ -32,5 +32,6 @@
   },
   "contributors": [
     "Fabien (https://github.com/adcpm)"
-  ]
+  ],
+  "devDependencies": {}
 }
