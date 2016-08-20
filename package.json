@@ -32,7 +32,10 @@
     "ecurve": "^1.0.3"
   },
   "contributors": [
-    "Fabien (https://github.com/adcpm)"
+    "Fabien (https://github.com/adcpm)",
+    "KaptainKrayola (https://github.com/KaptainKrayola)"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+    "steem": "^0.3.4"
+  }
 }

@@ -7,22 +7,22 @@ var privKeys = steemConnect.auth.getPrivateKeys(username, password, ['posting'])
 console.log(privKeys);
 
 var tx = {
-	expiration: '2016-08-16T16:16:39',
+	expiration: '2016-08-20T02:59:51',
 	extensions: [],
 	operations: [['vote', {
-		voter: "kaptainkrayola",
-		author: 'steemapp',
-		permlink: 'introducing-steemy-fully-native-ios-android-apps-for-steem',
+		voter: username,
+		author: 'rogerkver',
+		permlink: 'roger-ver-the-world-s-first-bitcoin-investor-is-now-on-steemit',
 		weight: 10000
 	}]],
-	ref_block_num: 7713,
-	ref_block_prefix: 3799131183,
+	ref_block_num: 40607,
+	ref_block_prefix: 2394871259,
 	signatures: []
 };
 
-console.log(tx)
-
-//2052021bf67f98b5b4d25015c7fc8a1b6d6fb9c94e766f1e12ea1c15c43e4c577e5383569325a6dc849a64aa473cafdab8ff30922cc5fa162643a4d13e15fd024c
-
 var signedTransaction = steemConnect.auth.signTransaction(tx, privKeys);
 console.log(signedTransaction);
+
+if (signedTransaction.signatures[0] == '206239640514a1aac6ef29b0fdf7bf1f1457526a77bb4cb35bc82d7f614d271bb54783850b6da824db5cf787d7a7b9b8a1da5fd3d2c2ebf53437906fc93f45d238') {
+	console.log('The signature is correct!');
+}
