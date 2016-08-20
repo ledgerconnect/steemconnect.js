@@ -29,7 +29,8 @@
     "bs58": "^3.0.0",
     "bytebuffer": "^5.0.1",
     "crypto": "0.0.3",
-    "ecurve": "^1.0.3"
+    "ecurve": "^1.0.3",
+    "moment": "^2.14.1"
   },
   "contributors": [
     "Fabien (https://github.com/adcpm)",
