@@ -1,6 +1,6 @@
 {
   "name": "steemconnect",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,26 +17,20 @@
     "steemjs",
     "steemconnect"
   ],
-  "author": "AdCpm <fabien@adcpm.com> (https://github.com/adcpm)",
+  "author": "AdCpm <fabien@bonustrack.co> (https://github.com/adcpm)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/adcpm/steemconnect/issues"
   },
   "homepage": "https://github.com/adcpm/steemconnect#readme",
   "dependencies": {
-    "axios": "^0.13.1",
-    "bigi": "^1.4.2",
-    "bs58": "^3.0.0",
-    "bytebuffer": "^5.0.1",
-    "crypto": "0.0.3",
-    "ecurve": "^1.0.3",
-    "moment": "^2.14.1"
+    "axios": "^0.13.1"
   },
   "contributors": [
     "Fabien (https://github.com/adcpm)",
     "KaptainKrayola (https://github.com/KaptainKrayola)"
   ],
   "devDependencies": {
-    "steem": "^0.3.4"
+    "steem": "^0.3.7"
   }
 }
