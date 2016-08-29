@@ -1,6 +1,6 @@
 {
   "name": "steemconnect",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -23,9 +23,7 @@
     "url": "https://github.com/adcpm/steemconnect/issues"
   },
   "homepage": "https://github.com/adcpm/steemconnect#readme",
-  "dependencies": {
-    "axios": "^0.13.1"
-  },
+  "dependencies": {},
   "contributors": [
     "Fabien (https://github.com/adcpm)",
     "KaptainKrayola (https://github.com/KaptainKrayola)"
