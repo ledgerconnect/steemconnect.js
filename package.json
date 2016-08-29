@@ -1,6 +1,6 @@
 {
   "name": "steemconnect",
-  "version": "0.0.21",
+  "version": "0.0.23",
   "description": "",
   "main": "index.js",
   "scripts": {
