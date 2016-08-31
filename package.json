@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify lib/browser.js -o examples/steemconnect.js && uglifyjs examples/steemconnect.js -o examples/steemconnect.min.js && uglifyjs examples/steemconnect.js -o steemconnect.min.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,8 @@
     "KaptainKrayola (https://github.com/KaptainKrayola)"
   ],
   "devDependencies": {
-    "steem": "^0.3.7"
+    "browserify": "^13.1.0",
+    "steem": "^0.3.7",
+    "uglifyjs": "^2.4.10"
   }
 }
