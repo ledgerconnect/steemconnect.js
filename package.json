@@ -24,7 +24,10 @@
     "url": "https://github.com/adcpm/steemconnect/issues"
   },
   "homepage": "https://github.com/adcpm/steemconnect#readme",
-  "dependencies": {},
+  "dependencies": {
+    "debug": "^2.2.0",
+    "isomorphic-fetch": "^2.2.1"
+  },
   "contributors": [
     "Fabien (https://github.com/adcpm)",
     "KaptainKrayola (https://github.com/KaptainKrayola)"
