@@ -5,10 +5,15 @@ var qs = require('querystring');
 
 var debug = require('debug')('steemconnect');
 
-var steemconnect = {};
-var basePath = 'https://steemconnect.com/api';
+var steemconnect = {
+  path: 'https://steemconnect.com/api'
+};
 
 exports = module.exports = steemconnect;
+
+steemconnect.setPath = function (path) {
+  this.path = path;
+};
 
 steemconnect.send = function send(url, params, cb) {
   var retP = fetch(url + '?' + qs.stringify(params), {
@@ -34,7 +39,7 @@ steemconnect.send = function send(url, params, cb) {
 };
 
 steemconnect.isAuthenticated = function (cb) {
-  return steemconnect.send(`${basePath}/verify`, {}, cb);
+  return steemconnect.send(`${this.path}/verify`, {}, cb);
 };
 
 steemconnect.vote = function (voter, author, permlink, weight, cb) {
@@ -44,7 +49,7 @@ steemconnect.vote = function (voter, author, permlink, weight, cb) {
     permlink: permlink,
     weight: weight
   };
-  return steemconnect.send(`${basePath}/vote`, params, cb);
+  return steemconnect.send(`${this.path}/vote`, params, cb);
 };
 
 steemconnect.upvote = function (voter, author, permlink, weight, cb) {
@@ -54,7 +59,7 @@ steemconnect.upvote = function (voter, author, permlink, weight, cb) {
     permlink: permlink,
     weight: weight
   };
-  return steemconnect.send(`${basePath}/upvote`, params, cb);
+  return steemconnect.send(`${this.path}/upvote`, params, cb);
 };
 
 steemconnect.downvote = function (voter, author, permlink, weight, cb) {
@@ -64,7 +69,7 @@ steemconnect.downvote = function (voter, author, permlink, weight, cb) {
     permlink: permlink,
     weight: weight
   };
-  return steemconnect.send(`${basePath}/downvote`, params, cb);
+  return steemconnect.send(`${this.path}/downvote`, params, cb);
 };
 
 steemconnect.follow = function (follower, following, cb) {
@@ -72,7 +77,7 @@ steemconnect.follow = function (follower, following, cb) {
     follower: follower,
     following: following
   };
-  return steemconnect.send(`${basePath}/follow`, params, cb);
+  return steemconnect.send(`${this.path}/follow`, params, cb);
 };
 
 steemconnect.unfollow = function (follower, following, cb) {
@@ -80,7 +85,7 @@ steemconnect.unfollow = function (follower, following, cb) {
     follower: follower,
     following: following
   };
-  return steemconnect.send(`${basePath}/unfollow`, params, cb);
+  return steemconnect.send(`${this.path}/unfollow`, params, cb);
 };
 
 steemconnect.ignore = function (follower, following, cb) {
@@ -88,7 +93,7 @@ steemconnect.ignore = function (follower, following, cb) {
     follower: follower,
     following: following
   };
-  return steemconnect.send(`${basePath}/ignore`, params, cb);
+  return steemconnect.send(`${this.path}/ignore`, params, cb);
 };
 
 steemconnect.reblog = function (account, author, permlink, cb) {
@@ -97,7 +102,7 @@ steemconnect.reblog = function (account, author, permlink, cb) {
     author: author,
     permlink: permlink
   };
-  return steemconnect.send(`${basePath}/reblog`, params, cb);
+  return steemconnect.send(`${this.path}/reblog`, params, cb);
 };
 
 steemconnect.comment = function (parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, cb) {
@@ -110,7 +115,7 @@ steemconnect.comment = function (parentAuthor, parentPermlink, author, permlink,
     body: body,
     jsonMetadata: jsonMetadata
   };
-  return steemconnect.send(`${basePath}/comment`, params, cb);
+  return steemconnect.send(`${this.path}/comment`, params, cb);
 };
 
 steemconnect.deleteComment = function (author, permlink, cb) {
@@ -118,7 +123,7 @@ steemconnect.deleteComment = function (author, permlink, cb) {
     author: author,
     permlink: permlink
   };
-  return steemconnect.send(`${basePath}/deleteComment`, params, cb);
+  return steemconnect.send(`${this.path}/deleteComment`, params, cb);
 };
 
 steemconnect.post = function (author, permlink, title, body, jsonMetadata, cb) {
@@ -129,7 +134,7 @@ steemconnect.post = function (author, permlink, title, body, jsonMetadata, cb) {
     body: body,
     jsonMetadata: jsonMetadata
   };
-  return steemconnect.send(`${basePath}/post`, params, cb);
+  return steemconnect.send(`${this.path}/post`, params, cb);
 };
 
 steemconnect.escrowTransfer = function (from, to, amount, memo, escrowId, agent, fee, jsonMeta, expiration, cb) {
@@ -144,7 +149,7 @@ steemconnect.escrowTransfer = function (from, to, amount, memo, escrowId, agent,
     json_meta: jsonMeta,
     expiration: expiration
   };
-  return steemconnect.send(`${basePath}/escrowTransfer`, params, cb);
+  return steemconnect.send(`${this.path}/escrowTransfer`, params, cb);
 };
 
 steemconnect.escrowDispute = function (from, to, escrowId, who, cb) {
@@ -154,7 +159,7 @@ steemconnect.escrowDispute = function (from, to, escrowId, who, cb) {
     escrow_id: escrowId,
     who: who
   };
-  return steemconnect.send(`${basePath}/escrowDispute`, params, cb);
+  return steemconnect.send(`${this.path}/escrowDispute`, params, cb);
 };
 
 steemconnect.escrowRelease = function (from, to, escrowId, who, amount, cb) {
@@ -165,5 +170,5 @@ steemconnect.escrowRelease = function (from, to, escrowId, who, amount, cb) {
     who: who,
     amount: amount
   };
-  return steemconnect.send(`${basePath}/escrowRelease`, params, cb);
+  return steemconnect.send(`${this.path}/escrowRelease`, params, cb);
 };
