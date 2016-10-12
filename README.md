@@ -1,2 +1,1 @@
-# Steem Connect
-### Under Construction
+# Steem Connect JavaScript SDK
