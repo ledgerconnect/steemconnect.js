@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify lib/browser.js -o examples/steemconnect.js && uglifyjs examples/steemconnect.js -o examples/steemconnect.min.js && uglifyjs examples/steemconnect.js -o steemconnect.min.js"
+    "build": "browserify src/browser.js -o dist/steemconnect.js && uglifyjs dist/steemconnect.js -o dist/steemconnect.min.js"
   },
   "repository": {
     "type": "git",

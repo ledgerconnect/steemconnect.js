@@ -1,1 +1,1 @@
-module.exports = require('./lib/steemconnect');
+module.exports = require('./src/steemconnect');
