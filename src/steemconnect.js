@@ -11,7 +11,9 @@ var basePath = 'https://steemconnect.com/api';
 exports = module.exports = steemconnect;
 
 steemconnect.send = function send(url, params, cb) {
-  var retP = fetch(url + '?' + qs.stringify(params))
+  var retP = fetch(url + '?' + qs.stringify(params), {
+      credentials: 'include',
+    })
     .then(function (res) {
       debug('GET ' + res.status + ' ' + url);
       if (res.status >= 400) {
