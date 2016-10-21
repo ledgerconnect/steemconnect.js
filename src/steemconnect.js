@@ -2,9 +2,9 @@
 
 var fetch = require('isomorphic-fetch');
 var qs = require('querystring');
+var cookies = require('js-cookie');
 
 var debug = require('debug')('steemconnect');
-
 var steemconnect = {
   path: 'https://steemconnect.com/api'
 };
@@ -15,10 +15,21 @@ steemconnect.setPath = function (path) {
   this.path = path;
 };
 
+//server side middleware
+steemconnect.setToken = function (req, res, next) {
+  var token = req.body.token || req.query.token || false;
+  var expiresIn = 60 * 60 * 24 * 7;
+  res.cookie('token', token, { path: '/', secure: req.hostname !== 'localhost', maxAge: expiresIn });
+  next();
+}
+
 steemconnect.send = function send(url, params, cb) {
   var retP = fetch(url + '?' + qs.stringify(params), {
-      credentials: 'include',
-    })
+    credentials: 'include',
+    headers: {
+      'x-steemconnect-token': cookies.get('token')
+    }
+  })
     .then(function (res) {
       debug('GET ' + res.status + ' ' + url);
       if (res.status >= 400) {
