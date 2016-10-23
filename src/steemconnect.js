@@ -18,8 +18,8 @@ steemconnect.setPath = function (path) {
 //server side middleware
 steemconnect.setToken = function (req, res, next) {
   var token = req.body.token || req.query.token || false;
-  var expiresIn = 60 * 60 * 24 * 7;
-  res.cookie('token', token, { path: '/', secure: req.hostname !== 'localhost', maxAge: expiresIn });
+  var expiresIn = 60 * 60 * 24 * 30;
+  res.cookie('token', token, { path: '/', secure: req.hostname !== 'localhost', maxAge: expiresIn * 1000 });
   next();
 }
 
