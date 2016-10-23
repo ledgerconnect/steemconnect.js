@@ -6,29 +6,24 @@ var cookies = require('js-cookie');
 
 var debug = require('debug')('steemconnect');
 var steemconnect = {
-  path: 'https://steemconnect.com/api'
+  path: 'https://steemconnect.com/api',
+  appName: ''
 };
 
 exports = module.exports = steemconnect;
 
 steemconnect.setPath = function (path) {
-  this.path = path;
+  this.path = path + '/' + this.appName;
 };
 
-//server side middleware
-steemconnect.setToken = function (req, res, next) {
-  var token = req.body.token || req.query.token || false;
-  var expiresIn = 60 * 60 * 24 * 30;
-  res.cookie('token', token, { path: '/', secure: req.hostname !== 'localhost', maxAge: expiresIn * 1000 });
-  next();
+steemconnect.setAppName = function (appName) {
+  this.appName = appName
+  steemconnect.setPath(this.path);
 }
 
 steemconnect.send = function send(url, params, cb) {
   var retP = fetch(url + '?' + qs.stringify(params), {
-    credentials: 'include',
-    headers: {
-      'x-steemconnect-token': cookies.get('token')
-    }
+    credentials: 'include'
   })
     .then(function (res) {
       debug('GET ' + res.status + ' ' + url);
