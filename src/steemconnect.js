@@ -7,17 +7,17 @@ var cookies = require('js-cookie');
 var debug = require('debug')('steemconnect');
 var steemconnect = {
   path: 'https://steemconnect.com/api',
-  appUserName: ''
+  app: ''
 };
 
 exports = module.exports = steemconnect;
 
 steemconnect.setPath = function (path) {
-  this.path = path + '/' + this.appUserName;
+  this.path = path + '/' + this.app;
 };
 
-steemconnect.setAppUserName = function (appUserName) {
-  this.appUserName = appUserName
+steemconnect.setApp = function (app) {
+  this.app = app
   steemconnect.setPath(this.path);
 }
 
