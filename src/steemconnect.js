@@ -13,11 +13,14 @@ var steemconnect = {
 exports = module.exports = steemconnect;
 
 steemconnect.setPath = function (path) {
-  this.path = path + '/' + this.app;
+  this.path = path;
+  if (this.app.length) {
+    this.path += ('/' + this.app);
+  }
 };
 
 steemconnect.setApp = function (app) {
-  this.app = app
+  this.app = app;
   steemconnect.setPath(this.path);
 }
 
