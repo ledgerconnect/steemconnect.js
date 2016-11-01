@@ -17,7 +17,7 @@
 </script>
 
 <a href="https://dev.steemconnect.com/authorize/@username?redirect_url=http://localhost">Log In</a>
-<button onClick="steemconnect.vote()">Vote</button>
+<button onClick="steemconnect.vote('me', 'author', 'permlink', 1000, function() { console.log('Success'); })">Vote</button>
 
 </body>
 </html>
