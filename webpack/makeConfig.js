@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 'use strict';
 const Visualizer = require('webpack-visualizer-plugin');
 const _ = require('lodash');
