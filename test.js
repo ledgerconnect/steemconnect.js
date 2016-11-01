@@ -1,5 +1,7 @@
-var steemConnect = require('./index');
+/* eslint-disable */
 
-steemConnect.isAuthenticated(function(err, result) {
-	console.log(err, result);
+const steemConnect = require('./index');
+
+steemConnect.isAuthenticated((err, result) => {
+  console.log(err, result);
 });
