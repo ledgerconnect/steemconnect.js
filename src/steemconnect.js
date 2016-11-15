@@ -3,22 +3,18 @@ const qs = require('querystring');
 const debug = require('debug')('steemconnect');
 
 const steemconnect = {
-  path: 'https://steemconnect.com/api',
+  api: 'https://steemconnect.com/api',
+  path: '',
   app: '',
 };
 
-exports = module.exports = steemconnect;
-
 steemconnect.setPath = function setPath(path) {
   this.path = path;
-  if (this.app.length) {
-    this.path += (`/${this.app}`);
-  }
 };
 
 steemconnect.setApp = function setApp(app) {
   this.app = app;
-  steemconnect.setPath(this.path);
+  steemconnect.setPath(`${this.api}/@${app}`);
 };
 
 steemconnect.send = function sendsend(url, params, cb) {
@@ -180,3 +176,5 @@ steemconnect.escrowRelease = function escrowRelease(from, to, escrowId, who, amo
   };
   return steemconnect.send(`${this.path}/escrowRelease`, params, cb);
 };
+
+exports = module.exports = steemconnect;
