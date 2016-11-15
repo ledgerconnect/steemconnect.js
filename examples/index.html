@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Steem Connect</title>
+  <meta charset="UTF-8">
+  <title>Steem Connect</title>
 </head>
 <body>
 
 <script src="../dist/steemconnect.min.js"></script>
 <script>
-    var app = 'username';
-    steemconnect.setApp('@' + app);
-    steemconnect.setPath('https://dev.steemconnect.com/api');
-    steemconnect.isAuthenticated(function(err, response) {
-        console.log(err, response);
-    });
+  steemconnect.setBaseUrl('https://dev.steemconnect.com');
+  steemconnect.setApp('your-app-username');
+  steemconnect.isAuthenticated(function(err, response) {
+    console.log(err, response);
+  });
+  var loginUrl = steemconnect.getLoginUrl('http://localhost');
 </script>
 
-<a href="https://dev.steemconnect.com/authorize/@username?redirect_url=http://localhost">Log In</a>
-<button onClick="steemconnect.vote('me', 'author', 'permlink', 1000, function() { console.log('Success'); })">Vote</button>
+<a href="#" onClick="window.location = loginUrl">Log In</a>
+
+<button onClick="steemconnect.vote('me', 'author', 'permlink', 1000, function(err, response) {
+  console.log(err, response);
+})">Vote</button>
 
 </body>
 </html>
