@@ -3,9 +3,13 @@ const qs = require('querystring');
 const debug = require('debug')('steemconnect');
 
 const steemconnect = {
-  api: 'https://steemconnect.com/api',
+  baseUrl: 'https://steemconnect.com',
   path: '',
   app: '',
+};
+
+steemconnect.setBaseUrl = function setPath(baseUrl) {
+  this.baseUrl = baseUrl;
 };
 
 steemconnect.setPath = function setPath(path) {
@@ -14,7 +18,11 @@ steemconnect.setPath = function setPath(path) {
 
 steemconnect.setApp = function setApp(app) {
   this.app = app;
-  steemconnect.setPath(`${this.api}/@${app}`);
+  steemconnect.setPath(`${this.baseUrl}/api/@${app}`);
+};
+
+steemconnect.getLoginUrl = function getLoginUrl(redirectUrl) {
+  return `${this.baseUrl}/authorize/@${this.app}?redirect_url=${redirectUrl}`;
 };
 
 steemconnect.send = function sendsend(url, params, cb) {
