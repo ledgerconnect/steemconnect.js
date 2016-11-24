@@ -70,26 +70,6 @@ steemconnect.vote = (voter, author, permlink, weight, cb) => {
   return steemconnect.send('vote', params, cb);
 };
 
-steemconnect.upvote = (voter, author, permlink, weight, cb) => {
-  const params = {
-    voter,
-    author,
-    permlink,
-    weight,
-  };
-  return steemconnect.send('upvote', params, cb);
-};
-
-steemconnect.downvote = (voter, author, permlink, weight, cb) => {
-  const params = {
-    voter,
-    author,
-    permlink,
-    weight,
-  };
-  return steemconnect.send('downvote', params, cb);
-};
-
 steemconnect.follow = (follower, following, cb) => {
   const params = {
     follower,
