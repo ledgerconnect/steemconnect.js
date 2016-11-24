@@ -2,38 +2,38 @@ const fetch = require('isomorphic-fetch');
 const qs = require('querystring');
 const debug = require('debug')('steemconnect');
 
-const steemconnect = {
+const SC = {
   baseURL: 'https://steemconnect.com',
   app: '',
   callbackURL: '',
 };
 
-steemconnect.init = (params) => {
-  params.baseURL && this.setBaseUrl(params.baseURL);
-  params.app && this.setApp(params.app);
-  params.callbackURL && this.setCallbackURL(params.callbackURL);
+SC.init = (params) => {
+  params.baseURL && SC.setBaseURL(params.baseURL);
+  params.app && SC.setApp(params.app);
+  params.callbackURL && SC.setCallbackURL(params.callbackURL);
 };
 
-steemconnect.setBaseURL = (baseURL) => {
-  this.baseURL = baseURL;
+SC.setBaseURL = (baseURL) => {
+  SC.baseURL = baseURL;
 };
 
-steemconnect.setApp = (app) => {
-  this.app = app;
+SC.setApp = (app) => {
+  SC.app = app;
 };
 
-steemconnect.setCallbackURL = (callbackURL) => {
-  this.callbackURL = callbackURL;
+SC.setCallbackURL = (callbackURL) => {
+  SC.callbackURL = callbackURL;
 };
 
-steemconnect.getLoginURL = (callbackURL) => {
+SC.getLoginURL = (callbackURL) => {
   return callbackURL ?
-    `${this.baseURL}/authorize/@${this.app}?redirect_url=${callbackURL}` :
-    `${this.baseURL}/authorize/@${this.app}?redirect_url=${this.callbackURL}`;
+    `${SC.baseURL}/authorize/@${SC.app}?redirect_url=${callbackURL}` :
+    `${SC.baseURL}/authorize/@${SC.app}?redirect_url=${SC.callbackURL}`;
 };
 
-steemconnect.send = (name, params, cb) => {
-  const url = `${this.baseURL}/api/@${app}/${name}`;
+SC.send = (name, params, cb) => {
+  const url = `${SC.baseURL}/api/@${SC.app}/${name}`;
   const retP = fetch(`${url}?${qs.stringify(params)}`, {
     credentials: 'include',
   })
@@ -56,54 +56,54 @@ steemconnect.send = (name, params, cb) => {
   });
 };
 
-steemconnect.isAuthenticated = (cb) => {
-  return steemconnect.send('verify', {}, cb);
+SC.isAuthenticated = (cb) => {
+  return SC.send('verify', {}, cb);
 };
 
-steemconnect.vote = (voter, author, permlink, weight, cb) => {
+SC.vote = (voter, author, permlink, weight, cb) => {
   const params = {
     voter,
     author,
     permlink,
     weight,
   };
-  return steemconnect.send('vote', params, cb);
+  return SC.send('vote', params, cb);
 };
 
-steemconnect.follow = (follower, following, cb) => {
+SC.follow = (follower, following, cb) => {
   const params = {
     follower,
     following,
   };
-  return steemconnect.send('follow', params, cb);
+  return SC.send('follow', params, cb);
 };
 
-steemconnect.unfollow = (follower, following, cb) => {
+SC.unfollow = (follower, following, cb) => {
   const params = {
     follower,
     following,
   };
-  return steemconnect.send('unfollow', params, cb);
+  return SC.send('unfollow', params, cb);
 };
 
-steemconnect.ignore = (follower, following, cb) => {
+SC.ignore = (follower, following, cb) => {
   const params = {
     follower,
     following,
   };
-  return steemconnect.send('ignore', params, cb);
+  return SC.send('ignore', params, cb);
 };
 
-steemconnect.reblog = (account, author, permlink, cb) => {
+SC.reblog = (account, author, permlink, cb) => {
   const params = {
     account,
     author,
     permlink,
   };
-  return steemconnect.send('reblog', params, cb);
+  return SC.send('reblog', params, cb);
 };
 
-steemconnect.comment = (parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, cb) => {
+SC.comment = (parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, cb) => {
   const params = {
     parentAuthor,
     parentPermlink,
@@ -113,18 +113,18 @@ steemconnect.comment = (parentAuthor, parentPermlink, author, permlink, title, b
     body,
     jsonMetadata,
   };
-  return steemconnect.send('comment', params, cb);
+  return SC.send('comment', params, cb);
 };
 
-steemconnect.deleteComment = (author, permlink, cb) => {
+SC.deleteComment = (author, permlink, cb) => {
   const params = {
     author,
     permlink,
   };
-  return steemconnect.send('deleteComment', params, cb);
+  return SC.send('deleteComment', params, cb);
 };
 
-steemconnect.post = (author, permlink, title, body, jsonMetadata, cb) => {
+SC.post = (author, permlink, title, body, jsonMetadata, cb) => {
   const params = {
     author,
     permlink,
@@ -132,10 +132,10 @@ steemconnect.post = (author, permlink, title, body, jsonMetadata, cb) => {
     body,
     jsonMetadata,
   };
-  return steemconnect.send('post', params, cb);
+  return SC.send('post', params, cb);
 };
 
-steemconnect.escrowTransfer = (from, to, amount, memo, escrowId, agent, fee, jsonMeta, expiration, cb) => {
+SC.escrowTransfer = (from, to, amount, memo, escrowId, agent, fee, jsonMeta, expiration, cb) => {
   const params = {
     from,
     to,
@@ -147,20 +147,20 @@ steemconnect.escrowTransfer = (from, to, amount, memo, escrowId, agent, fee, jso
     json_meta: jsonMeta,
     expiration,
   };
-  return steemconnect.send('escrowTransfer', params, cb);
+  return SC.send('escrowTransfer', params, cb);
 };
 
-steemconnect.escrowDispute = (from, to, escrowId, who, cb) => {
+SC.escrowDispute = (from, to, escrowId, who, cb) => {
   const params = {
     from,
     to,
     escrow_id: escrowId,
     who,
   };
-  return steemconnect.send('escrowDispute', params, cb);
+  return SC.send('escrowDispute', params, cb);
 };
 
-steemconnect.escrowRelease = (from, to, escrowId, who, amount, cb) => {
+SC.escrowRelease = (from, to, escrowId, who, amount, cb) => {
   const params = {
     from,
     to,
@@ -168,7 +168,7 @@ steemconnect.escrowRelease = (from, to, escrowId, who, amount, cb) => {
     who,
     amount,
   };
-  return steemconnect.send('escrowRelease', params, cb);
+  return SC.send('escrowRelease', params, cb);
 };
 
-exports = module.exports = steemconnect;
+exports = module.exports = SC;
