@@ -3,24 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Steem Connect</title>
+  <script src="//cdn.steemjs.com/lib/latest/steemconnect.min.js"></script>
 </head>
 <body>
 
-<script src="../dist/steemconnect.min.js"></script>
 <script>
-  steemconnect.setBaseUrl('https://dev.steemconnect.com');
-  steemconnect.setApp('your-app-username');
-  steemconnect.isAuthenticated(function(err, response) {
-    console.log(err, response);
+  steemconnect.init({
+    app: 'simple-app',
+    callbackURL: 'http://localhost/'
   });
-  var loginUrl = steemconnect.getLoginUrl('http://localhost');
+  var isAuth = false;
+  var loginURL = steemconnect.getLoginURL();
+
+  steemconnect.isAuthenticated(function(err, result) {
+    if (!err && result.isAuthenticated) {
+      isAuth = true;
+      var username = result.username;
+      console.log("logged in");
+    }
+  });
+
+  function redirect() {
+    window.location = loginURL;
+  }
 </script>
 
-<a href="#" onClick="window.location = loginUrl">Log In</a>
-
-<button onClick="steemconnect.vote('me', 'author', 'permlink', 1000, function(err, response) {
-  console.log(err, response);
-})">Vote</button>
+<a href="#" onClick="redirect()">Log In</a>
 
 </body>
 </html>
