@@ -1,5 +1,5 @@
 const fetch = require('isomorphic-fetch');
-const qs = require('querystring');
+const qs = require('qs');
 const debug = require('debug')('steemconnect');
 
 const SC = {
