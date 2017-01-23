@@ -78,10 +78,10 @@ SC.follow = (follower, following, cb) => {
   return SC.send('follow', params, cb);
 };
 
-SC.unfollow = (follower, following, cb) => {
+SC.unfollow = (unfollower, unfollowing, cb) => {
   const params = {
-    follower,
-    following,
+    unfollower,
+    unfollowing,
   };
   return SC.send('unfollow', params, cb);
 };
