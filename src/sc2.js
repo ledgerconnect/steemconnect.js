@@ -24,12 +24,13 @@ sc2.getLoginURL = (callbackURL) => {
 };
 
 sc2.send = (route, body, cb) => {
-  const url = `${sc2.baseURL}/api/v1/${route}`;
-  const retP = fetch(`${url}?access_token=${sc2.accessToken}`, {
+  const url = `${sc2.baseURL}/api/${route}`;
+  const retP = fetch(url, {
     method: 'POST',
     headers: {
       'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: sc2.accessToken,
     },
     body: JSON.stringify(body)
   }).then((res) => {
