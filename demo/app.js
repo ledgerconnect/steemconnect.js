@@ -1,7 +1,7 @@
 sc2.init({
-  //baseURL: 'http://localhost:3000',
-  app: 'busy',
-  callbackURL: 'http://localhost:8000/demo/'
+  baseURL: 'http://localhost:3000',
+  app: 'busy.app',
+  callbackURL: 'http://localhost:8000/demo'
 });
 
 angular.module('app', [])
