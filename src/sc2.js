@@ -4,6 +4,7 @@ const sc2 = {
   baseURL: 'https://v2.steemconnect.com',
   app: '',
   callbackURL: '',
+  scope: []
 };
 
 sc2.init = (params) => {
@@ -11,16 +12,19 @@ sc2.init = (params) => {
   params.app && sc2.setApp(params.app);
   params.callbackURL && sc2.setCallbackURL(params.callbackURL);
   params.accessToken && sc2.setAccessToken(params.accessToken);
+  params.scope && sc2.setScope(params.scope);
 };
 
 sc2.setBaseURL = (baseURL) => sc2.baseURL = baseURL;
 sc2.setApp = (app) => sc2.app = app;
 sc2.setCallbackURL = (callbackURL) => sc2.callbackURL = callbackURL;
 sc2.setAccessToken = (accessToken) => sc2.accessToken = accessToken;
+sc2.setScope = (scope) => sc2.scope = scope;
 
 sc2.getLoginURL = (callbackURL) => {
   const redirectUri = callbackURL || sc2.callbackURL;
-  return `${sc2.baseURL}/oauth2/authorize?client_id=${sc2.app}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+  const scope = sc2.scope ? `&scope=${sc2.scope.join(',')}` : '';
+  return `${sc2.baseURL}/oauth2/authorize?client_id=${sc2.app}&redirect_uri=${encodeURIComponent(redirectUri)}${scope}`;
 };
 
 sc2.send = (route, body, cb) => {
