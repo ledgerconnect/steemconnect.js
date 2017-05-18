@@ -5,7 +5,8 @@
 sc2.init({
   app: 'busy',
   callbackURL: 'http://localhost:8000/demo/',
-  accessToken: 'access_token'
+  accessToken: 'access_token',
+  scope: ['vote', 'comment']
 });
 ```
 
