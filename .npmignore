@@ -1,4 +1,5 @@
 .save
 .idea
 src
+.babelrc
 npm-debug.log
