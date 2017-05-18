@@ -2,7 +2,7 @@
   "name": "sc2-sdk",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "lib/sc2.js",
   "scripts": {
     "build": "npm run build-browser && npm run build-node",
     "build-browser": "rm -rf dist && NODE_ENV=production webpack && gzip -k -f ./dist/*.js && du -h ./dist/*",

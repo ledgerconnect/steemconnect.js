@@ -74,9 +74,55 @@ sc2.comment = (parentAuthor, parentPermlink, author, permlink, title, body, json
     permlink,
     title,
     body,
-    json_metadata: jsonMetadata,
+    json_metadata: JSON.stringify(jsonMetadata),
   };
   return sc2.broadcast([['comment', params]], cb);
 };
+
+sc2.reblog = (account, author, permlink, cb) => {
+  const params = {
+    required_auths: [],
+    required_posting_auths: [account],
+    id: 'follow',
+    json: JSON.stringify([
+      'reblog', {
+        account,
+        author,
+        permlink,
+      }]),
+  };
+  return sc2.broadcast([['custom_json', params]], cb);
+};
+
+sc2.follow = (follower, following, cb) => {
+  const params = {
+    required_auths: [],
+    required_posting_auths: [follower],
+    id: 'follow',
+    json: JSON.stringify(['follow', { follower, following, what: ['blog'] }]),
+  };
+  return sc2.broadcast([['custom_json', params]], cb);
+};
+
+sc2.unfollow = (unfollower, unfollowing, cb) => {
+  const params = {
+    required_auths: [],
+    required_posting_auths: [unfollower],
+    id: 'follow',
+    json: JSON.stringify(['follow', { follower: unfollower, following: unfollowing, what: [] }]),
+  };
+  return sc2.broadcast([['custom_json', params]], cb);
+};
+
+sc2.ignore = (follower, following, cb) => {
+  const params = {
+    required_auths: [],
+    required_posting_auths: [follower],
+    id: 'follow',
+    json: JSON.stringify(['follow', { follower, following, what: ['ignore'] }]),
+  };
+  return sc2.broadcast([['custom_json', params]], cb);
+};
+
 
 exports = module.exports = sc2;
