@@ -1,7 +1,8 @@
 sc2.init({
   baseURL: 'http://localhost:3000',
   app: 'busy.app',
-  callbackURL: 'http://localhost:8000/demo'
+  callbackURL: 'http://localhost:8000/demo',
+  scope: ['vote', 'comment']
 });
 
 angular.module('app', [])
