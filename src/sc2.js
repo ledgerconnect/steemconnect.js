@@ -124,5 +124,14 @@ sc2.ignore = (follower, following, cb) => {
   return sc2.broadcast([['custom_json', params]], cb);
 };
 
+sc2.claimRewardBalance = (account, rewardSteem, rewardSbd, rewardVests, cb) => {
+  const params = {
+    account,
+    reward_steem: rewardSteem,
+    reward_sbd: rewardSbd,
+    reward_vests: rewardVests,
+  };
+  return sc2.broadcast([['claim_reward_balance', params]], cb);
+};
 
 exports = module.exports = sc2;
