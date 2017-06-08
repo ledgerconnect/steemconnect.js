@@ -13,21 +13,22 @@
   <script src="app.js"></script>
 </head>
 <body>
-  <div class="container py-5" style="max-width: 600px;" ng-controller="Main as main">
-    <h3>Demo</h3>
-    <div ng-show="!user">
-      <p>You are not logged, click below to login</p>
-      <a
-        ng-href="{{loginURL}}"
-        class="btn btn-primary"
-      >
-        Login with SteemConnect
-      </a>
-    </div>
-    <form ng-show="user" ng-submit="main.submit()">
-      <p>You are now logged with <b>@{{user.name}}</b> account.</p>
-      <button class="btn btn-primary" type="submit">Vote @siol/test 1%</button>
-    </form>
+<div class="container py-5" style="max-width: 600px;" ng-controller="Main as main">
+  <h3>Demo</h3>
+  <div ng-show="!user">
+    <p>You are not logged, click below to login</p>
+    <a
+      ng-href="{{loginURL}}"
+      class="btn btn-primary"
+    >
+      Log in with SteemConnect
+    </a>
   </div>
+  <form ng-show="user">
+    <p>You are now logged with <b>@{{user.name}}</b> account.</p>
+    <button class="btn btn-primary" type="submit" ng-click="main.vote()">Vote @siol/test 1%</button>
+    <button class="btn btn-secondary" type="submit" ng-click="main.logout()">Log Out</button>
+  </form>
+</div>
 </body>
 </html>
