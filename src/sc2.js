@@ -19,6 +19,7 @@ sc2.setBaseURL = (baseURL) => sc2.baseURL = baseURL;
 sc2.setApp = (app) => sc2.app = app;
 sc2.setCallbackURL = (callbackURL) => sc2.callbackURL = callbackURL;
 sc2.setAccessToken = (accessToken) => sc2.accessToken = accessToken;
+sc2.removeAccessToken = () => sc2.accessToken = undefined;
 sc2.setScope = (scope) => sc2.scope = scope;
 
 sc2.getLoginURL = (callbackURL) => {
@@ -132,6 +133,29 @@ sc2.claimRewardBalance = (account, rewardSteem, rewardSbd, rewardVests, cb) => {
     reward_vests: rewardVests,
   };
   return sc2.broadcast([['claim_reward_balance', params]], cb);
+};
+
+sc2.revokeToken = (cb) => {
+  const url = `${sc2.baseURL}/api/oauth2/token/revoke`;
+  const retP = fetch(url, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+      Authorization: sc2.accessToken,
+    },
+  }).then((res) => {
+    if (res.status >= 400) {
+      throw new Error(`SteemConnect API call failed with ${res.status}`);
+    }
+    return res.json();
+  });
+  return retP.then((ret) => {
+    sc2.removeAccessToken();
+    cb(null, ret);
+  }, (err) => {
+    cb(err);
+  });
 };
 
 exports = module.exports = sc2;
