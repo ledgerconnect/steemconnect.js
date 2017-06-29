@@ -171,4 +171,14 @@ SC.escrowRelease = (from, to, escrowId, who, amount, cb) => {
   return SC.send('escrowRelease', params, cb);
 };
 
+SC.customJson = (requiredAuths, requiredPostingAuths, id, json, cb) => {
+  const params = {
+    id,
+    json,
+    requiredPostingAuths,
+    requiredAuths,
+  };
+  return SC.send('customJson', params, cb);
+};
+
 exports = module.exports = SC;
