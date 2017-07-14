@@ -28,10 +28,10 @@ sc2.getLoginURL = (callbackURL) => {
   return `${sc2.baseURL}/oauth2/authorize?client_id=${sc2.app}&redirect_uri=${encodeURIComponent(redirectUri)}${scope}`;
 };
 
-sc2.send = (route, body, cb) => {
+sc2.send = (route, method, body, cb) => {
   const url = `${sc2.baseURL}/api/${route}`;
   const retP = fetch(url, {
-    method: 'POST',
+    method: method,
     headers: {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
@@ -54,8 +54,8 @@ sc2.send = (route, body, cb) => {
   });
 };
 
-sc2.broadcast = (operations, cb) => sc2.send('broadcast', { operations }, cb);
-sc2.me = (cb) => sc2.send('me', {}, cb);
+sc2.broadcast = (operations, cb) => sc2.send('broadcast', 'POST', { operations }, cb);
+sc2.me = (cb) => sc2.send('me', 'POST', {}, cb);
 
 sc2.vote = (voter, author, permlink, weight, cb) => {
   const params = {
@@ -156,6 +156,10 @@ sc2.revokeToken = (cb) => {
   }, (err) => {
     cb(err);
   });
+};
+
+sc2.updateUserMetadata = (metadata = {}, cb) => {
+  return sc2.send('me', 'PUT', { user_metadata: metadata }, cb);
 };
 
 exports = module.exports = sc2;
