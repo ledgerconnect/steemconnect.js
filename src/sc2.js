@@ -39,18 +39,17 @@ sc2.send = (route, method, body, cb) => {
     },
     body: JSON.stringify(body)
   }).then((res) => {
-    if (res.status >= 400) {
-      throw new Error(`SteemConnect API call failed with ${res.status}`);
-    }
     return res.json();
   });
 
   if (!cb) return retP;
 
   return retP.then((ret) => {
-    cb(null, ret);
-  }, (err) => {
-    cb(err);
+    if (ret.errors) {
+      cb(ret, null);
+    } else {
+      cb(null, ret);
+    }
   });
 };
 
