@@ -101,5 +101,5 @@ if (!module.parent) {
   }));
 }
 
-exports = module.exports = makeConfig;
+module.exports = makeConfig;
 exports.DEFAULTS = DEFAULTS;
