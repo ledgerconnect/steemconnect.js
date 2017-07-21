@@ -10,4 +10,4 @@ if (typeof global !== 'undefined') {
   global.sc2 = sc2;
 }
 
-exports = module.exports = sc2;
+module.exports = sc2;

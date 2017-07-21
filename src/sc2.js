@@ -4,7 +4,7 @@ const sc2 = {
   baseURL: 'https://v2.steemconnect.com',
   app: '',
   callbackURL: '',
-  scope: []
+  scope: [],
 };
 
 sc2.init = (params) => {
@@ -15,12 +15,12 @@ sc2.init = (params) => {
   params.scope && sc2.setScope(params.scope);
 };
 
-sc2.setBaseURL = (baseURL) => sc2.baseURL = baseURL;
-sc2.setApp = (app) => sc2.app = app;
-sc2.setCallbackURL = (callbackURL) => sc2.callbackURL = callbackURL;
-sc2.setAccessToken = (accessToken) => sc2.accessToken = accessToken;
-sc2.removeAccessToken = () => sc2.accessToken = undefined;
-sc2.setScope = (scope) => sc2.scope = scope;
+sc2.setBaseURL = (baseURL) => { sc2.baseURL = baseURL; };
+sc2.setApp = (app) => { sc2.app = app; };
+sc2.setCallbackURL = (callbackURL) => { sc2.callbackURL = callbackURL; };
+sc2.setAccessToken = (accessToken) => { sc2.accessToken = accessToken; };
+sc2.removeAccessToken = () => { sc2.accessToken = undefined; };
+sc2.setScope = (scope) => { sc2.scope = scope; };
 
 sc2.getLoginURL = (callbackURL) => {
   const redirectUri = callbackURL || sc2.callbackURL;
@@ -31,16 +31,14 @@ sc2.getLoginURL = (callbackURL) => {
 sc2.send = (route, method, body, cb) => {
   const url = `${sc2.baseURL}/api/${route}`;
   const retP = fetch(url, {
-    method: method,
+    method,
     headers: {
-      'Accept': 'application/json, text/plain, */*',
+      Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
       Authorization: sc2.accessToken,
     },
-    body: JSON.stringify(body)
-  }).then((res) => {
-    return res.json();
-  });
+    body: JSON.stringify(body),
+  }).then(res => res.json());
 
   if (!cb) return retP;
 
@@ -54,7 +52,7 @@ sc2.send = (route, method, body, cb) => {
 };
 
 sc2.broadcast = (operations, cb) => sc2.send('broadcast', 'POST', { operations }, cb);
-sc2.me = (cb) => sc2.send('me', 'POST', {}, cb);
+sc2.me = cb => sc2.send('me', 'POST', {}, cb);
 
 sc2.vote = (voter, author, permlink, weight, cb) => {
   const params = {
@@ -139,7 +137,7 @@ sc2.revokeToken = (cb) => {
   const retP = fetch(url, {
     method: 'POST',
     headers: {
-      'Accept': 'application/json, text/plain, */*',
+      Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
       Authorization: sc2.accessToken,
     },
@@ -157,8 +155,6 @@ sc2.revokeToken = (cb) => {
   });
 };
 
-sc2.updateUserMetadata = (metadata = {}, cb) => {
-  return sc2.send('me', 'PUT', { user_metadata: metadata }, cb);
-};
+sc2.updateUserMetadata = (metadata = {}, cb) => sc2.send('me', 'PUT', { user_metadata: metadata }, cb);
 
-exports = module.exports = sc2;
+module.exports = sc2;
