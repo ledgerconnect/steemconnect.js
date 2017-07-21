@@ -4,9 +4,7 @@
   "description": "",
   "main": "lib/sc2.js",
   "scripts": {
-    "build": "npm run build-browser && npm run build-node",
-    "build-browser": "rm -rf dist && NODE_ENV=production webpack && gzip -k -f ./dist/*.js && du -h ./dist/*",
-    "build-node": "mkdir -p ./lib && cp ./src/* ./lib/ && babel ./src --out-dir ./lib"
+    "build": "cross-env NODE_ENV=production && gulp build-browser && gulp build-node"
   },
   "repository": {
     "type": "git",
@@ -37,11 +35,16 @@
     "babel-preset-es2017": "^6.16.0",
     "babel-register": "^6.14.0",
     "bluebird": "^3.4.6",
+    "cross-env": "^5.0.1",
+    "del": "^3.0.0",
     "eslint": "^3.5.0",
     "eslint-config-airbnb": "^11.1.0",
     "eslint-plugin-import": "^1.15.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.2.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-gzip": "^1.4.0",
     "json-loader": "^0.5.4",
     "webpack": "^1.13.2",
     "webpack-visualizer-plugin": "^0.1.5"
