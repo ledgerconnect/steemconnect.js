@@ -20,47 +20,20 @@ function makePlugins(options) {
 
   if (!isDevelopment) {
     plugins = plugins.concat([
-      new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({
+        sourceMap: true,
         output: {
           comments: false,
-        },
-        minimize: true,
-        compress: {
-          warnings: false,
         }
+      }),
+      new webpack.LoaderOptionsPlugin({
+        minimize: true
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
     ]);
   }
 
   return plugins;
-}
-
-function makeStyleLoaders(options) {
-  if (options.isDevelopment) {
-    return [
-      {
-        test: /\.s[ac]ss$/,
-        loaders: [
-          'style',
-          'css?sourceMap',
-          'autoprefixer-loader?browsers=last 2 version',
-          'sass?sourceMap&sourceMapContents',
-        ],
-      },
-    ];
-  }
-
-  return [
-    {
-      test: /\.s[ac]ss$/,
-      loader: ExtractTextPlugin.extract(
-        'style-loader',
-        'css!autoprefixer-loader?browsers=last 2 version!sass'
-      ),
-    },
-  ];
 }
 
 function makeConfig(options) {
@@ -80,16 +53,12 @@ function makeConfig(options) {
     },
     plugins: makePlugins(options),
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.js?$/,
           exclude: /node_modules/,
-          loader: 'babel',
-        },
-        {
-          test: /\.json?$/,
-          loader: 'json',
-        },
+          loader: 'babel-loader',
+        }
       ],
     },
   };

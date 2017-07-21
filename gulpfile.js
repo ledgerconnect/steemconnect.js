@@ -11,17 +11,18 @@ gulp.task('clean-dist', del.bind(
   null, ['dist/*'], {dot: true}
 ));
 
-gulp.task('webpack-project', function() {
+gulp.task('webpack-project', function(cb) {
   var compiler = webpack(require('./webpack.config'));
   compiler.run(function(err, stats) {
     if(err)
       throw new Error(err);
     if(stats.hasErrors())
       throw new Error(stats.toString());
+    cb();
   });
 });
 
-gulp.task('zip-project', function() {
+gulp.task('zip-project', ['webpack-project'], function() {
   gulp.src('dist/*.js')
     .pipe(gzip({ append: true}))
     .pipe(gulp.dest('dist'))
