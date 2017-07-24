@@ -38,17 +38,27 @@ sc2.send = (route, method, body, cb) => {
       Authorization: sc2.accessToken,
     },
     body: JSON.stringify(body),
-  }).then(res => res.json());
+  }).then((res) => {
+    const result = res.json();
+    // If the status is something other than 200 we need
+    // to reject the result since the request is not considered as a fail
+    if (res.status !== 200) {
+      return Promise.resolve(result).then(result2 => Promise.reject(result2));
+    } else if (result.error) {
+      return Promise.reject(result);
+    }
+    return Promise.resolve(result);
+  });
 
   if (!cb) return retP;
 
   return retP.then((ret) => {
-    if (ret.errors) {
+    if (ret.error) {
       cb(ret, null);
     } else {
       cb(null, ret);
     }
-  });
+  }, err => cb(err, null));
 };
 
 sc2.broadcast = (operations, cb) => sc2.send('broadcast', 'POST', { operations }, cb);
@@ -132,28 +142,7 @@ sc2.claimRewardBalance = (account, rewardSteem, rewardSbd, rewardVests, cb) => {
   return sc2.broadcast([['claim_reward_balance', params]], cb);
 };
 
-sc2.revokeToken = (cb) => {
-  const url = `${sc2.baseURL}/api/oauth2/token/revoke`;
-  const retP = fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json, text/plain, */*',
-      'Content-Type': 'application/json',
-      Authorization: sc2.accessToken,
-    },
-  }).then((res) => {
-    if (res.status >= 400) {
-      throw new Error(`SteemConnect API call failed with ${res.status}`);
-    }
-    return res.json();
-  });
-  return retP.then((ret) => {
-    sc2.removeAccessToken();
-    cb(null, ret);
-  }, (err) => {
-    cb(err);
-  });
-};
+sc2.revokeToken = cb => sc2.send('oauth2/token/revoke', 'POST', { token: sc2.accessToken }, cb).then(() => sc2.removeAccessToken());
 
 sc2.updateUserMetadata = (metadata = {}, cb) => sc2.send('me', 'PUT', { user_metadata: metadata }, cb);
 
