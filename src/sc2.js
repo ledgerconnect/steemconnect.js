@@ -53,12 +53,12 @@ sc2.send = (route, method, body, cb) => {
   if (!cb) return retP;
 
   return retP.then((ret) => {
-    if (ret.errors) {
+    if (ret.error) {
       cb(ret, null);
     } else {
       cb(null, ret);
     }
-  });
+  }, err => cb(err, null));
 };
 
 sc2.broadcast = (operations, cb) => sc2.send('broadcast', 'POST', { operations }, cb);
