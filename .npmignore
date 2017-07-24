@@ -1,5 +1,6 @@
-.save
-.idea
-src
-.babelrc
 npm-debug.log
+.babelrc
+/src
+
+# WebStorm
+.idea
