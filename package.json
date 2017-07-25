@@ -4,6 +4,7 @@
   "description": "",
   "main": "lib/sc2.js",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "cross-env NODE_ENV=production && gulp build-browser && gulp build-node",
     "postinstall": "npm run build"
   },
