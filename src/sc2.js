@@ -1,5 +1,19 @@
 const fetch = require('isomorphic-fetch');
 
+class SDKError extends Error {
+  constructor(message, obj) {
+    super(message);
+    this.name = 'SDKError';
+    this.error = obj.error;
+    this.error_description = obj.error_description;
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, this.constructor);
+    } else {
+      this.stack = (new Error(message)).stack;
+    }
+  }
+}
+
 const sc2 = {
   baseURL: 'https://v2.steemconnect.com',
   app: '',
@@ -43,9 +57,9 @@ sc2.send = (route, method, body, cb) => {
     // If the status is something other than 200 we need
     // to reject the result since the request is not considered as a fail
     if (res.status !== 200) {
-      return Promise.resolve(result).then(result2 => Promise.reject(result2));
+      return Promise.resolve(result).then(result2 => Promise.reject(new SDKError('sc2-sdk error', result2)));
     } else if (result.error) {
-      return Promise.reject(result);
+      return Promise.reject(new SDKError('sc2-sdk error', result));
     }
     return Promise.resolve(result);
   });
@@ -54,11 +68,11 @@ sc2.send = (route, method, body, cb) => {
 
   return retP.then((ret) => {
     if (ret.error) {
-      cb(ret, null);
+      cb(new SDKError('sc2-sdk error', ret), null);
     } else {
       cb(null, ret);
     }
-  }, err => cb(err, null));
+  }, err => cb(new SDKError('sc2-sdk error', err), null));
 };
 
 sc2.broadcast = (operations, cb) => sc2.send('broadcast', 'POST', { operations }, cb);
