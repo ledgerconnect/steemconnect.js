@@ -4,7 +4,8 @@
   "description": "",
   "main": "lib/sc2.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production && gulp build-browser && gulp build-node"
+    "build": "cross-env NODE_ENV=production && gulp build-browser && gulp build-node",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
