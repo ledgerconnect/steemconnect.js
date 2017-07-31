@@ -50,6 +50,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-gzip": "^1.4.0",
     "json-loader": "^0.5.4",
+    "lodash": "^4.17.4",
     "webpack": "^3.3.0",
     "webpack-visualizer-plugin": "^0.1.5"
   }
