@@ -6,7 +6,6 @@
         "jasmine": true
     },
     "rules": {
-        "linebreak-style": 0,
         "no-unused-expressions": ["error", { "allowShortCircuit": true }],
         "react/require-extension": "off"
     }
