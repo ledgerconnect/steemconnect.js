@@ -160,4 +160,18 @@ sc2.revokeToken = cb => sc2.send('oauth2/token/revoke', 'POST', { token: sc2.acc
 
 sc2.updateUserMetadata = (metadata = {}, cb) => sc2.send('me', 'PUT', { user_metadata: metadata }, cb);
 
+sc2.sign = (name, params) => {
+  if (typeof name !== 'string' || typeof params !== 'object') {
+    return new SDKError('sc2-sdk error', {
+      error: 'invalid_request',
+      error_description: 'Request has an invalid format',
+    });
+  }
+  let url = `${sc2.baseURL}/sign/${name}?`;
+  url += Object.keys(params).map(key =>
+    `${key}=${encodeURIComponent(params[key])}`
+  ).join('&');
+  return url;
+};
+
 module.exports = sc2;
