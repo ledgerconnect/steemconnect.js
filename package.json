@@ -1,7 +1,7 @@
 {
   "name": "sc2-sdk",
-  "version": "0.0.3",
-  "description": "",
+  "version": "0.0.4",
+  "description": "SteemConnect v2 SDK",
   "main": "lib/sc2.js",
   "scripts": {
     "prepublish": "npm run build",
