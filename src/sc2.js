@@ -160,4 +160,12 @@ sc2.revokeToken = cb => sc2.send('oauth2/token/revoke', 'POST', { token: sc2.acc
 
 sc2.updateUserMetadata = (metadata = {}, cb) => sc2.send('me', 'PUT', { user_metadata: metadata }, cb);
 
+sc2.sign = (operation) => {
+  let url = `${sc2.baseURL}/sign/${operation[0]}?`;
+  url += Object.keys(operation[1]).map(key =>
+    `${key}=${encodeURIComponent(operation[1][key])}`
+  ).join('&');
+  return url;
+};
+
 module.exports = sc2;
