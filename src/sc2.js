@@ -22,11 +22,11 @@ const sc2 = {
 };
 
 sc2.init = (params) => {
-  params.baseURL && sc2.setBaseURL(params.baseURL);
-  params.app && sc2.setApp(params.app);
-  params.callbackURL && sc2.setCallbackURL(params.callbackURL);
-  params.accessToken && sc2.setAccessToken(params.accessToken);
-  params.scope && sc2.setScope(params.scope);
+  if (params.baseURL) sc2.setBaseURL(params.baseURL);
+  if (params.app) sc2.setApp(params.app);
+  if (params.callbackURL) sc2.setCallbackURL(params.callbackURL);
+  if (params.accessToken) sc2.setAccessToken(params.accessToken);
+  if (params.scope) sc2.setScope(params.scope);
 };
 
 sc2.setBaseURL = (baseURL) => { sc2.baseURL = baseURL; };
