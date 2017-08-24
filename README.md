@@ -26,11 +26,11 @@ sc2.vote(voter, author, permlink, weight, function (err, res) {
 
 # Generate hot signing link
 ```
-var link = sc2.sign(['transfer', {
+var link = sc2.sign('transfer', {
   to: 'fabien',
   amount: '1.000 STEEM',
   memo: 'Hello World!',
-}]);
+});
 
 console.log(link);
 // => https://v2.steemconnect.com/sign/transfer?to=fabien&amount=1.000%20STEEM&memo=Hello%20World!
