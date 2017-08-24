@@ -1,6 +1,4 @@
-# SteemConnect v2 SDK
-
-# Init SDK
+### Init SDK
 ```
 sc2.init({
   app: 'busy',
@@ -10,21 +8,21 @@ sc2.init({
 });
 ```
 
-# Get user profile
+### Get user profile
 ```
 sc2.me(function (err, res) {
   console.log(err, res)
 });
 ```
 
-# Vote
+### Vote
 ```
 sc2.vote(voter, author, permlink, weight, function (err, res) {
   console.log(err, res)
 });
 ```
 
-# Generate hot signing link
+### Generate hot signing link
 ```
 var link = sc2.sign('transfer', {
   to: 'fabien',
