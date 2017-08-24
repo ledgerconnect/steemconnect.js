@@ -8,7 +8,7 @@
     "build": "cross-env NODE_ENV=production && gulp build-browser && gulp build-node",
     "postinstall": "npm run build",
     "test": "npm run lint",
-    "lint": "eslint src/**/*.js"
+    "lint": "eslint \"src/**/*.js\""
   },
   "repository": {
     "type": "git",
