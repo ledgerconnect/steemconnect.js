@@ -36,10 +36,11 @@ sc2.setAccessToken = (accessToken) => { sc2.accessToken = accessToken; };
 sc2.removeAccessToken = () => { sc2.accessToken = undefined; };
 sc2.setScope = (scope) => { sc2.scope = scope; };
 
-sc2.getLoginURL = (callbackURL) => {
-  const redirectUri = callbackURL || sc2.callbackURL;
-  const scope = sc2.scope ? `&scope=${sc2.scope.join(',')}` : '';
-  return `${sc2.baseURL}/oauth2/authorize?client_id=${sc2.app}&redirect_uri=${encodeURIComponent(redirectUri)}${scope}`;
+sc2.getLoginURL = (state) => {
+  let loginURL = `${sc2.baseURL}/oauth2/authorize?client_id=${sc2.app}&redirect_uri=${encodeURIComponent(sc2.callbackURL)}`;
+  loginURL += sc2.scope ? `&scope=${sc2.scope.join(',')}` : '';
+  loginURL += state ? `&state=${encodeURIComponent(state)}` : '';
+  return loginURL;
 };
 
 sc2.send = (route, method, body, cb) => {
@@ -160,7 +161,7 @@ sc2.revokeToken = cb => sc2.send('oauth2/token/revoke', 'POST', { token: sc2.acc
 
 sc2.updateUserMetadata = (metadata = {}, cb) => sc2.send('me', 'PUT', { user_metadata: metadata }, cb);
 
-sc2.sign = (name, params) => {
+sc2.sign = (name, params, redirectUri) => {
   if (typeof name !== 'string' || typeof params !== 'object') {
     return new SDKError('sc2-sdk error', {
       error: 'invalid_request',
@@ -171,6 +172,7 @@ sc2.sign = (name, params) => {
   url += Object.keys(params).map(key =>
     `${key}=${encodeURIComponent(params[key])}`
   ).join('&');
+  url += redirectUri ? `&redirect_uri=${encodeURIComponent(redirectUri)}` : '';
   return url;
 };
 
