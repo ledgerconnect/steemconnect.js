@@ -22,6 +22,13 @@ sc2.vote(voter, author, permlink, weight, function (err, res) {
 });
 ```
 
+### Logout
+```
+sc2.revokeToken(function (err, res) {
+  console.log(err, res)
+});
+```
+
 ### Generate hot signing link
 ```
 var link = sc2.sign('transfer', {
