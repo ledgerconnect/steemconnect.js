@@ -1,6 +1,8 @@
 # SteemConnect JavaScript SDK
 SteemConnect JavaScript SDK for Steem blockchain
 
+This repo is being deprecated. Please check out https://github.com/steemit/sc2-sdk.
+
 ## CDN 
 http://cdn.steemjs.com/lib/latest/steemconnect.min.js<br/>
 https://cdn.steemjs.com/lib/latest/steemconnect.min.js<br/>
