@@ -11,7 +11,7 @@ Once you are ready to register your own app to use with SteemConnect V2 you can 
 
 2. Click on "My Apps" and then "+ New App" to set up a new app.
 
-3. Enter a name for your new app's Steem account. A popular convention is [app_name].app, for example Busy.org uses busy.app.
+3. Enter a name for your new app's Steem account. A popular convention is [app_name].app, for example Busy uses busy.app.
 
 4. Pay the 6 STEEM account creation fee.
 
@@ -50,8 +50,11 @@ var link = sc2.getLoginUrl(state);
 console.log(link)
 // => https://v2.steemconnect.com/oauth2/authorize?client_id=[app]&redirect_uri=[callbackURL]&scope=vote,comment&state=[state]
 ```
+Parameters:
+- __state__: Data that will be passed to the callbackURL for your app after the user has logged in.
 
 ### Get user profile
+Once a user is logged in to your app you can call the following method to get the details of their account:
 ```
 sc2.me(function (err, res) {
   console.log(err, res)
