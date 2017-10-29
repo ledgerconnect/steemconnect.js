@@ -35,7 +35,7 @@ Parameters:
 - __state__: Data that will be passed to the callbackURL for your app after the user has logged in.
 
 After logging in, SC2 will redirect the user to the "redirect_uri" specified in the login url above and add the following query string parameters for your app to use:
-- __accessToken__: This is the oauth2 access token that is required to make any Steem API calls on behalf of the current user. Once you have this you need to tell the SC2 SDK to use it by either specifying it as a parameter to the init() method call or by calling sc2.setAccessToken([accessToken]).
+- __access_token__: This is the oauth2 access token that is required to make any Steem API calls on behalf of the current user. Once you have this you need to tell the SC2 SDK to use it by either specifying it as a parameter to the init() method call or by calling sc2.setAccessToken([accessToken]).
 - __expires_in__: The number of seconds until the access token expires.
 - __username__: The username of the current user.
 
