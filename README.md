@@ -1,29 +1,10 @@
 ## Getting Started
-### Example App
-Before registering your own app (which costs 6 STEEM) you can experiment with SteemConnect V2 development using the following demo:
-
-- [https://steemit.github.io/sc2-angular](https://steemit.github.io/sc2-angular)
-
-### Register Your App
-Once you are ready to register your own app to use with SteemConnect V2 you can do so by following these steps:
-
-1. Go to https://v2.steemconnect.com/dashboard to register a new app to use with SteemConnect V2. Note that this will cost 6 STEEM since it will actually create a new Steem account for your app.
-
-2. Click on "My Apps" and then "+ New App" to set up a new app.
-
-3. Enter a name for your new app's Steem account. A popular convention is [app_name].app, for example Busy uses busy.app.
-
-4. Pay the 6 STEEM account creation fee.
-
-5. Fill out the information for your app such as name, description, icon, and website.
-
-6. Add any URIs you will use for your site to the Redirect URI(s) list. SteemConnect will only allow redirects to a URI specified here. If you are developing locally you will need to include the local URL you are using in this list for testing.
-
-7. Your app should now be registered and you can start developing.
+For general information about SteemConnect V2 and setting up your app please see this post from @noisy: [How to configure SteemConnect v2 and use it with your application](https://nd.busy.org/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
 
 ### Include the SC2 SDK in your HTML page
+You can download a minified version of sc2.js here: [https://steemit.github.io/sc2-angular/sc2.min.js](https://steemit.github.io/sc2-angular/sc2.min.js) and include it in your HTML page:
 ```
-<script src="https://steemit.github.io/sc2-angular/sc2.min.js"></script>
+<script src="/scripts/sc2.min.js"></script>
 ```
 
 ## SDK Methods
@@ -120,7 +101,7 @@ sc2.revokeToken(function (err, res) {
 });
 ```
 
-### Re-Steem
+### Reblog
 ```
 sc2.reblog(account, author, permlink, function (err, res) {
   console.log(err, res)
