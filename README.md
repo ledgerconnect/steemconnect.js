@@ -27,7 +27,7 @@ Parameters:
 ### Get Login URL
 The following method returns a URL that you can redirect the user to so that they may log in to your app through SC2:
 ```
-var link = sc2.getLoginUrl(state);
+var link = sc2.getLoginURL(state);
 console.log(link)
 // => https://v2.steemconnect.com/oauth2/authorize?client_id=[app]&redirect_uri=[callbackURL]&scope=vote,comment&state=[state]
 ```
