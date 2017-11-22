@@ -45,7 +45,7 @@ SteemConnect.prototype.setScope = function setScope(scope) {
 SteemConnect.prototype.getLoginURL = function getLoginURL(state) {
   let loginURL = `${this.options.baseURL}/oauth2/authorize?client_id=${
     this.options.app
-  }&redirect_uri=${encodeURIComponent(this.callbackURL)}`;
+  }&redirect_uri=${encodeURIComponent(this.options.callbackURL)}`;
   loginURL += this.options.scope ? `&scope=${this.options.scope.join(',')}` : '';
   loginURL += state ? `&state=${encodeURIComponent(state)}` : '';
   return loginURL;
