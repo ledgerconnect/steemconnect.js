@@ -43,22 +43,22 @@ SteemConnect.prototype.setScope = function setScope(scope) {
 };
 
 SteemConnect.prototype.getLoginURL = function getLoginURL(state) {
-  let loginURL = `${this.baseURL}/oauth2/authorize?client_id=${
-    this.app
+  let loginURL = `${this.options.baseURL}/oauth2/authorize?client_id=${
+    this.options.app
   }&redirect_uri=${encodeURIComponent(this.callbackURL)}`;
-  loginURL += this.scope ? `&scope=${this.scope.join(',')}` : '';
+  loginURL += this.options.scope ? `&scope=${this.options.scope.join(',')}` : '';
   loginURL += state ? `&state=${encodeURIComponent(state)}` : '';
   return loginURL;
 };
 
 SteemConnect.prototype.send = function send(route, method, body, cb) {
-  const url = `${this.baseURL}/api/${route}`;
+  const url = `${this.options.baseURL}/api/${route}`;
   const retP = fetch(url, {
     method,
     headers: {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
-      Authorization: this.accessToken,
+      Authorization: this.options.accessToken,
     },
     body: JSON.stringify(body),
   }).then((res) => {
@@ -193,8 +193,8 @@ SteemConnect.prototype.claimRewardBalance = function claimRewardBalance(
 };
 
 SteemConnect.prototype.revokeToken = function revokeToken(cb) {
-  return this.send('oauth2/token/revoke', 'POST', { token: this.accessToken }, cb).then(() =>
-    this.removeAccessToken()
+  return this.send('oauth2/token/revoke', 'POST', { token: this.options.accessToken }, cb).then(
+    () => this.removeAccessToken()
   );
 };
 
@@ -209,7 +209,7 @@ SteemConnect.prototype.sign = function sign(name, params, redirectUri) {
       error_description: 'Request has an invalid format',
     });
   }
-  let url = `${this.baseURL}/sign/${name}?`;
+  let url = `${this.options.baseURL}/sign/${name}?`;
   url += Object.keys(params)
     .map(key => `${key}=${encodeURIComponent(params[key])}`)
     .join('&');
