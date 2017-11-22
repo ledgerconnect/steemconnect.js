@@ -193,13 +193,13 @@ SteemConnect.prototype.claimRewardBalance = function claimRewardBalance(
 };
 
 SteemConnect.prototype.revokeToken = function revokeToken(cb) {
-  this.send('oauth2/token/revoke', 'POST', { token: this.accessToken }, cb).then(() =>
+  return this.send('oauth2/token/revoke', 'POST', { token: this.accessToken }, cb).then(() =>
     this.removeAccessToken()
   );
 };
 
 SteemConnect.prototype.updateUserMetadata = function updateUserMetadata(metadata = {}, cb) {
-  this.send('me', 'PUT', { user_metadata: metadata }, cb);
+  return this.send('me', 'PUT', { user_metadata: metadata }, cb);
 };
 
 SteemConnect.prototype.sign = function sign(name, params, redirectUri) {
