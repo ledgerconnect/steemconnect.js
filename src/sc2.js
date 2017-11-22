@@ -90,11 +90,11 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
 };
 
 SteemConnect.prototype.broadcast = function broadcast(operations, cb) {
-  this.send('broadcast', 'POST', { operations }, cb);
+  return this.send('broadcast', 'POST', { operations }, cb);
 };
 
 SteemConnect.prototype.me = function me(cb) {
-  this.send('me', 'POST', {}, cb);
+  return this.send('me', 'POST', {}, cb);
 };
 
 SteemConnect.prototype.vote = function vote(voter, author, permlink, weight, cb) {
