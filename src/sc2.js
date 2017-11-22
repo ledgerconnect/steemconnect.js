@@ -14,35 +14,35 @@ class SDKError extends Error {
   }
 }
 
-const SteemConnect = () => {
+function SteemConnect() {
   this.options = {
     baseURL: 'https://v2.steemconnect.com',
     app: '',
     callbackURL: '',
     scope: [],
   };
-};
+}
 
-SteemConnect.prototype.setBaseURL = (baseURL) => {
+SteemConnect.prototype.setBaseURL = function setBaseURL(baseURL) {
   this.options.baseURL = baseURL;
 };
-SteemConnect.prototype.setApp = (app) => {
+SteemConnect.prototype.setApp = function setApp(app) {
   this.options.app = app;
 };
-SteemConnect.prototype.setCallbackURL = (callbackURL) => {
+SteemConnect.prototype.setCallbackURL = function setCallbackURL(callbackURL) {
   this.options.callbackURL = callbackURL;
 };
-SteemConnect.prototype.setAccessToken = (accessToken) => {
+SteemConnect.prototype.setAccessToken = function setAccessToken(accessToken) {
   this.options.accessToken = accessToken;
 };
-SteemConnect.prototype.removeAccessToken = () => {
+SteemConnect.prototype.removeAccessToken = function removeAccessToken() {
   this.options.accessToken = undefined;
 };
-SteemConnect.prototype.setScope = (scope) => {
+SteemConnect.prototype.setScope = function setScope(scope) {
   this.options.scope = scope;
 };
 
-SteemConnect.prototype.getLoginURL = (state) => {
+SteemConnect.prototype.getLoginURL = function getLoginURL(state) {
   let loginURL = `${this.baseURL}/oauth2/authorize?client_id=${
     this.app
   }&redirect_uri=${encodeURIComponent(this.callbackURL)}`;
@@ -51,7 +51,7 @@ SteemConnect.prototype.getLoginURL = (state) => {
   return loginURL;
 };
 
-SteemConnect.prototype.send = (route, method, body, cb) => {
+SteemConnect.prototype.send = function send(route, method, body, cb) {
   const url = `${this.baseURL}/api/${route}`;
   const retP = fetch(url, {
     method,
@@ -89,12 +89,15 @@ SteemConnect.prototype.send = (route, method, body, cb) => {
   );
 };
 
-SteemConnect.prototype.broadcast = (operations, cb) =>
+SteemConnect.prototype.broadcast = function broadcast(operations, cb) {
   this.send('broadcast', 'POST', { operations }, cb);
+};
 
-SteemConnect.prototype.me = cb => this.send('me', 'POST', {}, cb);
+SteemConnect.prototype.me = function me(cb) {
+  this.send('me', 'POST', {}, cb);
+};
 
-SteemConnect.prototype.vote = (voter, author, permlink, weight, cb) => {
+SteemConnect.prototype.vote = function vote(voter, author, permlink, weight, cb) {
   const params = {
     voter,
     author,
@@ -104,7 +107,7 @@ SteemConnect.prototype.vote = (voter, author, permlink, weight, cb) => {
   return this.broadcast([['vote', params]], cb);
 };
 
-SteemConnect.prototype.comment = (
+SteemConnect.prototype.comment = function comment(
   parentAuthor,
   parentPermlink,
   author,
@@ -113,7 +116,7 @@ SteemConnect.prototype.comment = (
   body,
   jsonMetadata,
   cb
-) => {
+) {
   const params = {
     parent_author: parentAuthor,
     parent_permlink: parentPermlink,
@@ -126,7 +129,7 @@ SteemConnect.prototype.comment = (
   return this.broadcast([['comment', params]], cb);
 };
 
-SteemConnect.prototype.reblog = (account, author, permlink, cb) => {
+SteemConnect.prototype.reblog = function reblog(account, author, permlink, cb) {
   const params = {
     required_auths: [],
     required_posting_auths: [account],
@@ -143,7 +146,7 @@ SteemConnect.prototype.reblog = (account, author, permlink, cb) => {
   return this.broadcast([['custom_json', params]], cb);
 };
 
-SteemConnect.prototype.follow = (follower, following, cb) => {
+SteemConnect.prototype.follow = function follow(follower, following, cb) {
   const params = {
     required_auths: [],
     required_posting_auths: [follower],
@@ -153,7 +156,7 @@ SteemConnect.prototype.follow = (follower, following, cb) => {
   return this.broadcast([['custom_json', params]], cb);
 };
 
-SteemConnect.prototype.unfollow = (unfollower, unfollowing, cb) => {
+SteemConnect.prototype.unfollow = function unfollow(unfollower, unfollowing, cb) {
   const params = {
     required_auths: [],
     required_posting_auths: [unfollower],
@@ -163,7 +166,7 @@ SteemConnect.prototype.unfollow = (unfollower, unfollowing, cb) => {
   return this.broadcast([['custom_json', params]], cb);
 };
 
-SteemConnect.prototype.ignore = (follower, following, cb) => {
+SteemConnect.prototype.ignore = function ignore(follower, following, cb) {
   const params = {
     required_auths: [],
     required_posting_auths: [follower],
@@ -173,7 +176,13 @@ SteemConnect.prototype.ignore = (follower, following, cb) => {
   return this.broadcast([['custom_json', params]], cb);
 };
 
-SteemConnect.prototype.claimRewardBalance = (account, rewardSteem, rewardSbd, rewardVests, cb) => {
+SteemConnect.prototype.claimRewardBalance = function claimRewardBalance(
+  account,
+  rewardSteem,
+  rewardSbd,
+  rewardVests,
+  cb
+) {
   const params = {
     account,
     reward_steem: rewardSteem,
@@ -183,15 +192,17 @@ SteemConnect.prototype.claimRewardBalance = (account, rewardSteem, rewardSbd, re
   return this.broadcast([['claim_reward_balance', params]], cb);
 };
 
-SteemConnect.prototype.revokeToken = cb =>
+SteemConnect.prototype.revokeToken = function revokeToken(cb) {
   this.send('oauth2/token/revoke', 'POST', { token: this.accessToken }, cb).then(() =>
     this.removeAccessToken()
   );
+};
 
-SteemConnect.prototype.updateUserMetadata = (metadata = {}, cb) =>
+SteemConnect.prototype.updateUserMetadata = function updateUserMetadata(metadata = {}, cb) {
   this.send('me', 'PUT', { user_metadata: metadata }, cb);
+};
 
-SteemConnect.prototype.sign = (name, params, redirectUri) => {
+SteemConnect.prototype.sign = function sign(name, params, redirectUri) {
   if (typeof name !== 'string' || typeof params !== 'object') {
     return new SDKError('sc2-sdk error', {
       error: 'invalid_request',
@@ -206,7 +217,7 @@ SteemConnect.prototype.sign = (name, params, redirectUri) => {
   return url;
 };
 
-exports.Initialize = (config) => {
+exports.Initialize = function Initialize(config) {
   const instance = new SteemConnect();
 
   if (!config) {
