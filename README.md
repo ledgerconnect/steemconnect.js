@@ -9,9 +9,9 @@ You can download a minified version of sc2.js here: [https://steemit.github.io/s
 
 ## SDK Methods
 ### Init SDK
-Call the init() method when your app first loads to initialize the SDK:
+Call the Initialize() method when your app first loads to initialize the SDK:
 ```
-sc2.init({
+var api = sc2.Initialize({
   app: 'busy',
   callbackURL: 'http://localhost:8000/demo/',
   accessToken: 'access_token',
@@ -27,7 +27,7 @@ Parameters:
 ### Get Login URL
 The following method returns a URL that you can redirect the user to so that they may log in to your app through SC2:
 ```
-var link = sc2.getLoginURL(state);
+var link = api.getLoginURL(state);
 console.log(link)
 // => https://v2.steemconnect.com/oauth2/authorize?client_id=[app]&redirect_uri=[callbackURL]&scope=vote,comment&state=[state]
 ```
@@ -42,7 +42,7 @@ After logging in, SC2 will redirect the user to the "redirect_uri" specified in 
 ### Get user profile
 Once a user is logged in to your app you can call the following method to get the details of their account:
 ```
-sc2.me(function (err, res) {
+api.me(function (err, res) {
   console.log(err, res)
 });
 ```
@@ -59,7 +59,7 @@ _id:"yabapmatt"
 ### Vote
 The vote() method will cast a vote on the specified post or comment from the current user:
 ```
-sc2.vote(voter, author, permlink, weight, function (err, res) {
+api.vote(voter, author, permlink, weight, function (err, res) {
   console.log(err, res)
 });
 ```
@@ -73,7 +73,7 @@ Parameters:
 ### Comment
 The comment() method will post a comment on an existing post or comment from the current user:
 ```
-sc2.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function (err, res) {
+api.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function (err, res) {
   console.log(err, res)
 });
 ```
@@ -81,7 +81,7 @@ sc2.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMet
 ### Generate hot signing link
 The sign() method creates a URL to which your app can redirect the user to perform a signed transaction on the blockchain such as a transfer or delegation:
 ```
-var link = sc2.sign('transfer', {
+var link = api.sign('transfer', {
   to: 'fabien',
   amount: '1.000 STEEM',
   memo: 'Hello World!',
@@ -94,49 +94,53 @@ console.log(link);
 ### Logout
 The revokeToken() method will log the current user out of your application by revoking the access token provided to your app for that user: 
 ```
-sc2.revokeToken(function (err, res) {
+api.revokeToken(function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Reblog
 ```
-sc2.reblog(account, author, permlink, function (err, res) {
+api.reblog(account, author, permlink, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Follow
 ```
-sc2.follow(follower, following, function (err, res) {
+api.follow(follower, following, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Unfollow
 ```
-sc2.unfollow(unfollower, unfollowing, function (err, res) {
+api.unfollow(unfollower, unfollowing, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Ignore
 ```
-sc2.ignore = (follower, following, function (err, res) {
+api.ignore = (follower, following, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Claim Reward Balance
 ```
-sc2.claimRewardBalance = (account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
+api.claimRewardBalance = (account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Update User Metadata
 ```
-sc2.updateUserMetadata = (metadata, function (err, res) {
+api.updateUserMetadata = (metadata, function (err, res) {
   console.log(err, res)
 });
 ```
+
+## Changelog
+1.0.0
+- Migrated to instance based architecture. You have to create new instance using `Initialize` function now. See documentation above.
