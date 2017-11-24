@@ -53,7 +53,7 @@ SteemConnect.prototype.getLoginURL = function getLoginURL(state) {
 
 SteemConnect.prototype.send = function send(route, method, body, cb) {
   const url = `${this.options.baseURL}/api/${route}`;
-  const retP = fetch(url, {
+  const promise = fetch(url, {
     method,
     headers: {
       Accept: 'application/json, text/plain, */*',
@@ -61,32 +61,26 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
       Authorization: this.options.accessToken,
     },
     body: JSON.stringify(body),
-  }).then((res) => {
-    const result = res.json();
-    // If the status is something other than 200 we need
-    // to reject the result since the request is not considered as a fail
-    if (res.status !== 200) {
-      return Promise.resolve(result).then(result2 =>
-        Promise.reject(new SDKError('sc2-sdk error', result2))
-      );
-    } else if (result.error) {
-      return Promise.reject(new SDKError('sc2-sdk error', result));
-    }
-    return Promise.resolve(result);
-  });
-
-  if (!cb) return retP;
-
-  return retP.then(
-    (ret) => {
-      if (ret.error) {
-        cb(new SDKError('sc2-sdk error', ret), null);
-      } else {
-        cb(null, ret);
+  })
+    .then((res) => {
+      const json = res.json();
+      // If the status is something other than 200 we need
+      // to reject the result since the request is not considered as a fail
+      if (res.status !== 200) {
+        return json.then(result => Promise.reject(new SDKError('sc2-sdk error', result)));
       }
-    },
-    err => cb(new SDKError('sc2-sdk error', err), null)
-  );
+      return json;
+    })
+    .then((res) => {
+      if (res.error) {
+        return Promise.reject(new SDKError('sc2-sdk error', res));
+      }
+      return res;
+    });
+
+  if (!cb) return promise;
+
+  return promise.then(res => cb(null, res)).catch(err => cb(err, null));
 };
 
 SteemConnect.prototype.broadcast = function broadcast(operations, cb) {

@@ -142,5 +142,8 @@ api.updateUserMetadata = (metadata, function (err, res) {
 ```
 
 ## Changelog
-1.0.0
+#### 1.0.1
+- Fixed response error checking.
+
+#### 1.0.0
 - Migrated to instance based architecture. You have to create new instance using `Initialize` function now. See documentation above.
