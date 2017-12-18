@@ -1,6 +1,6 @@
 {
   "name": "sc2-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "SteemConnect v2 SDK",
   "main": "lib/sc2.js",
   "scripts": {
