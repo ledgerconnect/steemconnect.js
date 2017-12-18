@@ -28,8 +28,8 @@
   },
   "homepage": "https://github.com/adcpm/sc2-sdk#readme",
   "dependencies": {
+    "cross-fetch": "^1.1.1",
     "debug": "^2.2.0",
-    "isomorphic-fetch": "^2.2.1",
     "postinstall-build": "^5.0.1"
   },
   "devDependencies": {
