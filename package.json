@@ -6,7 +6,6 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "cross-env NODE_ENV=production && gulp build-browser && gulp build-node",
-    "postinstall": "postinstall-build lib",
     "test": "npm run lint",
     "lint": "eslint \"src/**/*.js\""
   },
@@ -29,8 +28,7 @@
   "homepage": "https://github.com/adcpm/sc2-sdk#readme",
   "dependencies": {
     "debug": "^2.2.0",
-    "isomorphic-fetch": "^2.2.1",
-    "postinstall-build": "^5.0.1"
+    "isomorphic-fetch": "^2.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
