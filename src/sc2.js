@@ -1,4 +1,4 @@
-const fetch = require('isomorphic-fetch');
+const fetch = require('cross-fetch');
 
 class SDKError extends Error {
   constructor(message, obj) {
