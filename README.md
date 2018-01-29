@@ -29,7 +29,7 @@ The following method returns a URL that you can redirect the user to so that the
 ```
 var link = api.getLoginURL(state);
 console.log(link)
-// => https://v2.steemconnect.com/oauth2/authorize?client_id=[app]&redirect_uri=[callbackURL]&scope=vote,comment&state=[state]
+// => https://steemconnect.com/oauth2/authorize?client_id=[app]&redirect_uri=[callbackURL]&scope=vote,comment&state=[state]
 ```
 Parameters:
 - __state__: Data that will be passed to the callbackURL for your app after the user has logged in.
@@ -88,7 +88,7 @@ var link = api.sign('transfer', {
 }, 'http://localhost:8000/demo/transfer-complete');
 
 console.log(link);
-// => https://v2.steemconnect.com/sign/transfer?to=fabien&amount=1.000%20STEEM&memo=Hello%20World!&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fdemo%2Ftransfer-complete
+// => https://steemconnect.com/sign/transfer?to=fabien&amount=1.000%20STEEM&memo=Hello%20World!&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fdemo%2Ftransfer-complete
 ```
 
 ### Logout

@@ -16,7 +16,7 @@ class SDKError extends Error {
 
 function SteemConnect() {
   this.options = {
-    baseURL: 'https://v2.steemconnect.com',
+    baseURL: 'https://steemconnect.com',
     app: '',
     callbackURL: '',
     scope: [],
