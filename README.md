@@ -11,6 +11,8 @@ You can download a minified version of sc2.js here: [https://steemit.github.io/s
 ### Init SDK
 Call the Initialize() method when your app first loads to initialize the SDK:
 ```
+var sc2 = require('sc2-sdk');
+
 var api = sc2.Initialize({
   app: 'busy',
   callbackURL: 'http://localhost:8000/demo/',
@@ -122,21 +124,21 @@ api.unfollow(unfollower, unfollowing, function (err, res) {
 
 ### Ignore
 ```
-api.ignore = (follower, following, function (err, res) {
+api.ignore(follower, following, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Claim Reward Balance
 ```
-api.claimRewardBalance = (account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
+api.claimRewardBalance(account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Update User Metadata
 ```
-api.updateUserMetadata = (metadata, function (err, res) {
+api.updateUserMetadata(metadata, function (err, res) {
   console.log(err, res)
 });
 ```
