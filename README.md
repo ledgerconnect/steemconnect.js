@@ -2,7 +2,7 @@
 For general information about SteemConnect V2 and setting up your app please see this post from @noisy: [How to configure SteemConnect v2 and use it with your application](https://busy.org/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
 
 ### Include the SC2 SDK in your HTML page
-You can download a minified version of sc2.js here: [https://steemit.github.io/sc2-angular/sc2.min.js](https://steemit.github.io/sc2-angular/sc2.min.js) and include it in your HTML page:
+You can download a minified version of sc2.js here: [https://steemit.github.io/example-steemconnect-angular/sc2.min.js](https://steemit.github.io/example-steemconnect-angular/sc2.min.js) and include it in your HTML page:
 ```
 <script src="/scripts/sc2.min.js"></script>
 ```
