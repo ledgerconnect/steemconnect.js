@@ -78,6 +78,7 @@ The comment() method will post a comment on an existing post or comment from the
 api.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function (err, res) {
   console.log(err, res)
 });
+The comment() method is rate limited to 5 minutes per root post, and 20 seconds per comment.
 ```
 
 ### Generate hot signing link
