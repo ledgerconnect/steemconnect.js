@@ -79,6 +79,7 @@ api.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMet
   console.log(err, res)
 });
 ```
+The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
 
 ### Generate hot signing link
 The sign() method creates a URL to which your app can redirect the user to perform a signed transaction on the blockchain such as a transfer or delegation:
