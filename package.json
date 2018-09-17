@@ -10,23 +10,6 @@
     "test": "npm run lint",
     "lint": "eslint \"src/**/*.js\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/steemit/steemconnect-sdk.git"
-  },
-  "keywords": [
-    "steem",
-    "steemit",
-    "blockchain",
-    "steemjs",
-    "steemconnect"
-  ],
-  "author": "Bonustrack <fabien@bonustrack.co> (https://github.com/bonustrack)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/steemit/steemconnect-sdk/issues"
-  },
-  "homepage": "https://github.com/steemit/steemconnect-sdk#readme",
   "dependencies": {
     "cross-fetch": "^1.1.1"
   },
@@ -36,9 +19,7 @@
     "babel-polyfill": "^6.16.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.14.0",
-    "bluebird": "^3.4.6",
     "cross-env": "^5.0.1",
-    "debug": "^4.0.1",
     "del": "^3.0.0",
     "eslint": "^3.5.0",
     "eslint-config-airbnb": "^11.1.0",
@@ -52,5 +33,22 @@
     "lodash": "^4.17.4",
     "webpack": "^3.3.0",
     "webpack-visualizer-plugin": "^0.1.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steemit/steemconnect-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/steemit/steemconnect-sdk/issues"
+  },
+  "keywords": [
+    "steem",
+    "steemit",
+    "blockchain",
+    "steemjs",
+    "steemconnect"
+  ],
+  "author": "Bonustrack <fabien@bonustrack.co> (https://github.com/bonustrack)",
+  "license": "MIT",
+  "homepage": "https://github.com/steemit/steemconnect-sdk#readme"
 }
