@@ -1,8 +1,8 @@
 ## Getting Started
-For general information about SteemConnect V2 and setting up your app please see this post from @noisy: [How to configure SteemConnect v2 and use it with your application](https://nd.busy.org/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
+For general information about SteemConnect V2 and setting up your app please see this post from @noisy: [How to configure SteemConnect v2 and use it with your application](https://busy.org/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
 
 ### Include the SC2 SDK in your HTML page
-You can download a minified version of sc2.js here: [https://steemit.github.io/sc2-angular/sc2.min.js](https://steemit.github.io/sc2-angular/sc2.min.js) and include it in your HTML page:
+You can download a minified version of sc2.js here: [https://steemit.github.io/example-steemconnect-angular/sc2.min.js](https://steemit.github.io/example-steemconnect-angular/sc2.min.js) and include it in your HTML page:
 ```
 <script src="/scripts/sc2.min.js"></script>
 ```
@@ -11,6 +11,8 @@ You can download a minified version of sc2.js here: [https://steemit.github.io/s
 ### Init SDK
 Call the Initialize() method when your app first loads to initialize the SDK:
 ```
+var sc2 = require('sc2-sdk');
+
 var api = sc2.Initialize({
   app: 'busy',
   callbackURL: 'http://localhost:8000/demo/',
@@ -77,6 +79,7 @@ api.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMet
   console.log(err, res)
 });
 ```
+The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
 
 ### Generate hot signing link
 The sign() method creates a URL to which your app can redirect the user to perform a signed transaction on the blockchain such as a transfer or delegation:
@@ -122,21 +125,21 @@ api.unfollow(unfollower, unfollowing, function (err, res) {
 
 ### Ignore
 ```
-api.ignore = (follower, following, function (err, res) {
+api.ignore(follower, following, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Claim Reward Balance
 ```
-api.claimRewardBalance = (account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
+api.claimRewardBalance(account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Update User Metadata
 ```
-api.updateUserMetadata = (metadata, function (err, res) {
+api.updateUserMetadata(metadata, function (err, res) {
   console.log(err, res)
 });
 ```
