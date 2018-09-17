@@ -1,7 +1,8 @@
 {
   "name": "steemconnect-sdk",
   "version": "1.1.0",
-  "description": "SteemConnect SDK",
+  "description": "SteemConnect JavaScript SDK",
+  "browser": "dist/sc2.min.js",
   "main": "lib/sc2.js",
   "scripts": {
     "prepublish": "npm run build",
