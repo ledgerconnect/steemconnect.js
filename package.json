@@ -1,7 +1,8 @@
 {
-  "name": "sc2-sdk",
-  "version": "1.0.2",
-  "description": "SteemConnect v2 SDK",
+  "name": "steemconnect-sdk",
+  "version": "1.1.0",
+  "description": "SteemConnect JavaScript SDK",
+  "browser": "dist/sc2.min.js",
   "main": "lib/sc2.js",
   "scripts": {
     "prepublish": "npm run build",
@@ -9,26 +10,8 @@
     "test": "npm run lint",
     "lint": "eslint \"src/**/*.js\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/adcpm/sc2-sdk.git"
-  },
-  "keywords": [
-    "steem",
-    "steemit",
-    "blockchain",
-    "steemjs",
-    "steemconnect"
-  ],
-  "author": "Bonustrack <fabien@bonustrack.co> (https://github.com/bonustrack)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/adcpm/sc2-sdk/issues"
-  },
-  "homepage": "https://github.com/adcpm/sc2-sdk#readme",
   "dependencies": {
-    "cross-fetch": "^1.1.1",
-    "debug": "^2.2.0"
+    "cross-fetch": "^1.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
@@ -36,7 +19,6 @@
     "babel-polyfill": "^6.16.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.14.0",
-    "bluebird": "^3.4.6",
     "cross-env": "^5.0.1",
     "del": "^3.0.0",
     "eslint": "^3.5.0",
@@ -51,5 +33,22 @@
     "lodash": "^4.17.4",
     "webpack": "^3.3.0",
     "webpack-visualizer-plugin": "^0.1.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steemit/steemconnect-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/steemit/steemconnect-sdk/issues"
+  },
+  "keywords": [
+    "steem",
+    "steemit",
+    "blockchain",
+    "steemjs",
+    "steemconnect"
+  ],
+  "author": "Bonustrack <fabien@bonustrack.co> (https://github.com/bonustrack)",
+  "license": "MIT",
+  "homepage": "https://github.com/steemit/steemconnect-sdk#readme"
 }
