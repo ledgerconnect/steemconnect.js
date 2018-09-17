@@ -1,7 +1,7 @@
 {
-  "name": "sc2-sdk",
-  "version": "1.0.2",
-  "description": "SteemConnect v2 SDK",
+  "name": "steemconnect-sdk",
+  "version": "1.1.0",
+  "description": "SteemConnect SDK",
   "main": "lib/sc2.js",
   "scripts": {
     "prepublish": "npm run build",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adcpm/sc2-sdk.git"
+    "url": "git+https://github.com/steemit/steemconnect-sdk.git"
   },
   "keywords": [
     "steem",
@@ -23,9 +23,9 @@
   "author": "Bonustrack <fabien@bonustrack.co> (https://github.com/bonustrack)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/adcpm/sc2-sdk/issues"
+    "url": "https://github.com/steemit/steemconnect-sdk/issues"
   },
-  "homepage": "https://github.com/adcpm/sc2-sdk#readme",
+  "homepage": "https://github.com/steemit/steemconnect-sdk#readme",
   "dependencies": {
     "cross-fetch": "^1.1.1",
     "debug": "^2.2.0"
