@@ -1,10 +1,11 @@
 ## Getting Started
-For general information about SteemConnect V2 and setting up your app please see this post from @noisy: [How to configure SteemConnect v2 and use it with your application](https://busy.org/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
+For general information about SteemConnect V2 and setting up your app please see this post from @noisy: [How to configure SteemConnect v2 and use it with your application](https://steemit.com/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
 
-### Include the SC2 SDK in your HTML page
-You can download a minified version of sc2.js here: [https://steemit.github.io/example-steemconnect-angular/sc2.min.js](https://steemit.github.io/example-steemconnect-angular/sc2.min.js) and include it in your HTML page:
-```
-<script src="/scripts/sc2.min.js"></script>
+### CDN
+You can create an index.html file and include SteemConnect SDK with:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/sc2-sdk@latest"></script>
 ```
 
 ## SDK Methods
@@ -145,6 +146,9 @@ api.updateUserMetadata(metadata, function (err, res) {
 ```
 
 ## Changelog
+#### 1.0.2
+- Deprecate `v2.steemconnect.com` endpoint
+
 #### 1.0.1
 - Fixed response error checking.
 
