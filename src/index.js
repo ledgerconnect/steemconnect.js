@@ -1,4 +1,4 @@
-const fetch = require('cross-fetch');
+import fetch from 'cross-fetch';
 
 class SDKError extends Error {
   constructor(message, obj) {
@@ -211,7 +211,7 @@ SteemConnect.prototype.sign = function sign(name, params, redirectUri) {
   return url;
 };
 
-exports.Initialize = function Initialize(config) {
+export const Initialize = function Initialize(config) {
   const instance = new SteemConnect();
 
   if (!config) {
