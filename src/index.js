@@ -62,7 +62,7 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
     },
     body: JSON.stringify(body),
   })
-    .then((res) => {
+    .then(res => {
       const json = res.json();
       // If the status is something other than 200 we need
       // to reject the result since the request is not considered as a fail
@@ -71,7 +71,7 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
       }
       return json;
     })
-    .then((res) => {
+    .then(res => {
       if (res.error) {
         return Promise.reject(new SDKError('sc2-sdk error', res));
       }
@@ -109,7 +109,7 @@ SteemConnect.prototype.comment = function comment(
   title,
   body,
   jsonMetadata,
-  cb
+  cb,
 ) {
   const params = {
     parent_author: parentAuthor,
@@ -175,7 +175,7 @@ SteemConnect.prototype.claimRewardBalance = function claimRewardBalance(
   rewardSteem,
   rewardSbd,
   rewardVests,
-  cb
+  cb,
 ) {
   const params = {
     account,
@@ -188,7 +188,7 @@ SteemConnect.prototype.claimRewardBalance = function claimRewardBalance(
 
 SteemConnect.prototype.revokeToken = function revokeToken(cb) {
   return this.send('oauth2/token/revoke', 'POST', { token: this.options.accessToken }, cb).then(
-    () => this.removeAccessToken()
+    () => this.removeAccessToken(),
   );
 };
 
