@@ -211,7 +211,7 @@ SteemConnect.prototype.sign = function sign(name, params, redirectUri) {
   return url;
 };
 
-export const Initialize = function Initialize(config) {
+const Initialize = function Initialize(config) {
   const instance = new SteemConnect();
 
   if (!config) {
@@ -229,4 +229,8 @@ export const Initialize = function Initialize(config) {
   if (config.scope) instance.setScope(config.scope);
 
   return instance;
+};
+
+export default {
+  Initialize,
 };
