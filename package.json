@@ -1,54 +1,52 @@
 {
-  "name": "steemconnect-sdk",
-  "version": "1.1.0",
+  "name": "steemconnect",
+  "version": "2.0.0",
   "description": "SteemConnect JavaScript SDK",
+  "homepage": "https://steemconnect.com",
   "browser": "dist/sc2.min.js",
-  "main": "lib/sc2.js",
-  "scripts": {
-    "prepublish": "npm run build",
-    "build": "cross-env NODE_ENV=production && gulp build-browser && gulp build-node",
-    "test": "npm run lint",
-    "lint": "eslint \"src/**/*.js\""
-  },
-  "dependencies": {
-    "cross-fetch": "^1.1.1"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.16.0",
-    "babel-loader": "^7.1.1",
-    "babel-polyfill": "^6.16.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-register": "^6.14.0",
-    "cross-env": "^5.0.1",
-    "del": "^3.0.0",
-    "eslint": "^3.5.0",
-    "eslint-config-airbnb": "^11.1.0",
-    "eslint-plugin-import": "^1.16.0",
-    "eslint-plugin-jsx-a11y": "^2.2.2",
-    "eslint-plugin-react": "^6.2.1",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-gzip": "^1.4.0",
-    "json-loader": "^0.5.4",
-    "lodash": "^4.17.4",
-    "webpack": "^3.3.0",
-    "webpack-visualizer-plugin": "^0.1.5"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/steemit/steemconnect-sdk.git"
+    "url": "https://github.com/steemit/steemconnect.js.git"
   },
   "bugs": {
-    "url": "https://github.com/steemit/steemconnect-sdk/issues"
+    "url": "https://github.com/steemit/steemconnect.js/issues"
   },
-  "keywords": [
-    "steem",
-    "steemit",
-    "blockchain",
-    "steemjs",
-    "steemconnect"
+  "main": "lib/index.js",
+  "files": [
+    "dist",
+    "lib"
   ],
-  "author": "Bonustrack <fabien@bonustrack.co> (https://github.com/bonustrack)",
+  "scripts": {
+    "build": "taskr cjs && webpack",
+    "lint": "eslint 'src/**/*.js'",
+    "prettier": "prettier 'src/**/*.js' --list-different",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
   "license": "MIT",
-  "homepage": "https://github.com/steemit/steemconnect-sdk#readme"
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "cross-fetch": "^2.2.2"
+  },
+  "devDependencies": {
+    "@taskr/babel": "^1.1.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.0.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^2.10.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "jest": "^23.5.0",
+    "prettier": "^1.14.2",
+    "taskr": "^1.1.0",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.0.8",
+    "webpack-visualizer-plugin": "^0.1.11"
+  }
 }
