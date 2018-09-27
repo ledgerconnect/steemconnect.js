@@ -1,18 +1,45 @@
-## Getting Started
-For general information about SteemConnect V2 and setting up your app please see this post from @noisy: [How to configure SteemConnect v2 and use it with your application](https://steemit.com/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
+[![npm](https://img.shields.io/npm/v/steemconnect.svg)](https://www.npmjs.com/package/steemconnect)
+![CircleCI](https://img.shields.io/circleci/project/github/steemit/steemconnect.js.svg)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/steemit/steemconnect.js/master/LICENSE)
 
-### CDN
-You can create an index.html file and include SteemConnect SDK with:
+# SteemConnect.js
+
+SteemConnect JavaScript SDK.
+
+## Getting started
+
+To install and run SteemConnect.js, follow this quick start guide
+
+### Install
+
+SteemConnect.js was designed to work both in the browser and in Node.js.
+
+#### Node.js
+To install SteemConnect.js on Node.js, open your terminal and run:
+```
+npm i steemconnect --save
+```
+
+#### Browser
+
+You can create an index.html file and include SteemConnect.js with:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/sc2-sdk@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/steemconnect@latest"></script>
 ```
+
+### Usage
+
+For general information about SteemConnect V2 and setting up your app you can follow these guides:
+
+- [How to configure SteemConnect v2 and use it with your application](https://steemit.com/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
+- [JS: Steemconnect - Steem Developer](https://developers.steem.io/tutorials-javascript/steemconnect)
 
 ## SDK Methods
 ### Init SDK
 Call the Initialize() method when your app first loads to initialize the SDK:
 ```
-var sc2 = require('sc2-sdk');
+var sc2 = require('steemconnect');
 
 var api = sc2.Initialize({
   app: 'busy',
@@ -51,12 +78,14 @@ api.me(function (err, res) {
 ```
 If it is successful, the result will be a JSON object with the following properties:
 ```
-account:{id: 338059, name: "yabapmatt", owner: {}, active: {}, posting: {}, ...}
-name:"yabapmatt"
-scope:["vote"]
-user:"yabapmatt"
-user_metadata:{}
-_id:"yabapmatt"
+{
+  account: { id: 338059, name: "yabapmatt", ...},
+  name: "yabapmatt",
+  scope: ["vote"],
+  user: "yabapmatt",
+  user_metadata: {},
+  _id: "yabapmatt"
+}
 ```
 
 ### Vote
@@ -146,6 +175,10 @@ api.updateUserMetadata(metadata, function (err, res) {
 ```
 
 ## Changelog
+
+#### 2.0.0
+- Update to Webpack 4, fix import issue #50
+
 #### 1.0.2
 - Deprecate `v2.steemconnect.com` endpoint
 
