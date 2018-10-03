@@ -123,6 +123,14 @@ SteemConnect.prototype.comment = function comment(
   return this.broadcast([['comment', params]], cb);
 };
 
+SteemConnect.prototype.deleteComment = function deleteComment(author, permlink, cb) {
+  const params = {
+    author,
+    permlink
+  };
+  return this.broadcast([['delete_comment', params]], cb);
+};
+
 SteemConnect.prototype.reblog = function reblog(account, author, permlink, cb) {
   const params = {
     required_auths: [],
