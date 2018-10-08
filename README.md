@@ -111,6 +111,14 @@ api.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMet
 ```
 The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
 
+### Delete Comment
+The deleteComment() method will mark a comment as deleted.
+```
+api.deleteComment(author, permlink, function (err, res) {
+  console.log(err, res)
+})
+```
+
 ### Generate hot signing link
 The sign() method creates a URL to which your app can redirect the user to perform a signed transaction on the blockchain such as a transfer or delegation:
 ```
