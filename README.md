@@ -114,8 +114,8 @@ The comment() method is rate limited to 5 minutes per root comment (post), and 2
 ### Delete Comment
 The deleteComment() method will mark a comment as deleted.
 ```
-api.deleteComment(author, permlink, function (err) {
-  console.log(err)
+api.deleteComment(author, permlink, function (err, res) {
+  console.log(err, res)
 })
 ```
 
