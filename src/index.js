@@ -86,7 +86,7 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
 
 SteemConnect.prototype.broadcast = function broadcast(operations, cb) {
   if (window && window._steemconnect) {
-    const uri = encodeOps(operations).replace('steem://', '');
+    const uri = encodeOps(operations);
     return window._steemconnect.sign(uri, cb);
   }
   return this.send('broadcast', 'POST', { operations }, cb);
