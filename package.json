@@ -43,7 +43,7 @@
     "eslint-config-prettier": "^2.10.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-prettier": "^2.6.2",
-    "jest": "^23.5.0",
+    "jest": "^23.6.0",
     "prettier": "^1.14.2",
     "taskr": "^1.1.0",
     "webpack": "^4.16.5",
