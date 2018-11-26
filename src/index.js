@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch';
-import steemuri from 'steem-uri';
+import * as steemuri from 'steem-uri';
 
 class SDKError extends Error {
   constructor(message, obj) {
