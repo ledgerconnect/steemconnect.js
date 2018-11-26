@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch';
+import steemuri from 'steem-uri';
 
 class SDKError extends Error {
   constructor(message, obj) {
@@ -84,6 +85,10 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
 };
 
 SteemConnect.prototype.broadcast = function broadcast(operations, cb) {
+  if (window && window._steemconnect) {
+    const uri = steemuri.encodeOps(operations).replace('steem://', '');
+    return window._steemconnect.sign(uri, cb);
+  }
   return this.send('broadcast', 'POST', { operations }, cb);
 };
 
