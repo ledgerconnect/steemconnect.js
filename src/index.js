@@ -131,7 +131,7 @@ SteemConnect.prototype.comment = function comment(
 SteemConnect.prototype.deleteComment = function deleteComment(author, permlink, cb) {
   const params = {
     author,
-    permlink
+    permlink,
   };
   return this.broadcast([['delete_comment', params]], cb);
 };
