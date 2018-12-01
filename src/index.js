@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch';
+import { encodeOps } from 'steem-uri';
 
 class SDKError extends Error {
   constructor(message, obj) {
@@ -84,6 +85,10 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
 };
 
 SteemConnect.prototype.broadcast = function broadcast(operations, cb) {
+  if (window && window._steemconnect) {
+    const uri = encodeOps(operations);
+    return window._steemconnect.sign(uri, cb);
+  }
   return this.send('broadcast', 'POST', { operations }, cb);
 };
 
@@ -126,7 +131,7 @@ SteemConnect.prototype.comment = function comment(
 SteemConnect.prototype.deleteComment = function deleteComment(author, permlink, cb) {
   const params = {
     author,
-    permlink
+    permlink,
   };
   return this.broadcast([['delete_comment', params]], cb);
 };

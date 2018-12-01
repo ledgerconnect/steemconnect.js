@@ -7,6 +7,7 @@ module.exports = {
     jest: true,
   },
   rules: {
+    'no-underscore-dangle': 'off',
     'no-console': 'off',
     'import/prefer-default-export': 'off',
     'prettier/prettier': 'error',
