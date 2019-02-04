@@ -1,7 +1,7 @@
 const path = require('path');
 const Visualizer = require('webpack-visualizer-plugin');
 
-const libraryName = 'sc2';
+const libraryName = 'steemconnect';
 
 const config = {
   mode: 'production',
