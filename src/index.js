@@ -1,6 +1,8 @@
 import fetch from 'cross-fetch';
 import { encodeOps } from 'steem-uri';
 
+const BASE_URL = 'https://steemconnect.com';
+
 class SDKError extends Error {
   constructor(message, obj) {
     super(message);
@@ -17,7 +19,6 @@ class SDKError extends Error {
 
 function SteemConnect() {
   this.options = {
-    baseURL: 'https://steemconnect.com',
     apiURL: 'https://api.steemconnect.com',
     app: '',
     callbackURL: '',
@@ -25,8 +26,11 @@ function SteemConnect() {
   };
 }
 
-SteemConnect.prototype.setBaseURL = function setBaseURL(baseURL) {
-  this.options.baseURL = baseURL;
+/**
+ * @deprecated since version 3.0.0
+ */
+SteemConnect.prototype.setBaseURL = function setBaseURL() {
+  console.warn('The function "setBaseUrl" is deprecated.');
 };
 SteemConnect.prototype.setApiURL = function setApiURL(apiURL) {
   this.options.apiURL = apiURL;
@@ -48,7 +52,7 @@ SteemConnect.prototype.setScope = function setScope(scope) {
 };
 
 SteemConnect.prototype.getLoginURL = function getLoginURL(state) {
-  let loginURL = `${this.options.baseURL}/oauth2/authorize?client_id=${
+  let loginURL = `${BASE_URL}/oauth2/authorize?client_id=${
     this.options.app
   }&redirect_uri=${encodeURIComponent(this.options.callbackURL)}`;
   loginURL += this.options.scope ? `&scope=${this.options.scope.join(',')}` : '';
@@ -72,13 +76,13 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
       // If the status is something other than 200 we need
       // to reject the result since the request is not considered as a fail
       if (res.status !== 200) {
-        return json.then(result => Promise.reject(new SDKError('sc2-sdk error', result)));
+        return json.then(result => Promise.reject(new SDKError('steemconnect error', result)));
       }
       return json;
     })
     .then(res => {
       if (res.error) {
-        return Promise.reject(new SDKError('sc2-sdk error', res));
+        return Promise.reject(new SDKError('steemconnect error', res));
       }
       return res;
     });
@@ -215,12 +219,12 @@ SteemConnect.prototype.updateUserMetadata = function updateUserMetadata(metadata
 
 SteemConnect.prototype.sign = function sign(name, params, redirectUri) {
   if (typeof name !== 'string' || typeof params !== 'object') {
-    return new SDKError('sc2-sdk error', {
+    return new SDKError('steemconnect error', {
       error: 'invalid_request',
       error_description: 'Request has an invalid format',
     });
   }
-  let url = `${this.options.baseURL}/sign/${name}?`;
+  let url = `${BASE_URL}/sign/${name}?`;
   url += Object.keys(params)
     .map(key => `${key}=${encodeURIComponent(params[key])}`)
     .join('&');
@@ -239,7 +243,6 @@ const Initialize = function Initialize(config) {
     throw new Error('Config must be an object');
   }
 
-  if (config.baseURL) instance.setBaseURL(config.baseURL);
   if (config.apiURL) instance.setApiURL(config.apiURL);
   if (config.app) instance.setApp(config.app);
   if (config.callbackURL) instance.setCallbackURL(config.callbackURL);
