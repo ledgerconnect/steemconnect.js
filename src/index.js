@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 import { encodeOps } from 'steem-uri';
 
 const BASE_URL = 'https://steemconnect.com';
+const API_URL = 'https://api.steemconnect.com';
 
 class SDKError extends Error {
   constructor(message, obj) {
@@ -19,7 +20,7 @@ class SDKError extends Error {
 
 function SteemConnect() {
   this.options = {
-    apiURL: 'https://api.steemconnect.com',
+    apiURL: API_URL,
     app: '',
     callbackURL: '',
     scope: [],
