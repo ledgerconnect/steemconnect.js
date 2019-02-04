@@ -1,6 +1,6 @@
 [![npm](https://img.shields.io/npm/v/steemconnect.svg)](https://www.npmjs.com/package/steemconnect)
-![CircleCI](https://img.shields.io/circleci/project/github/steemit/steemconnect.js.svg)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/steemit/steemconnect.js/master/LICENSE)
+![CircleCI](https://img.shields.io/circleci/project/github/steemscript/steemconnect.js.svg)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/steemscript/steemconnect.js/master/LICENSE)
 
 # SteemConnect.js
 
@@ -39,9 +39,9 @@ For general information about SteemConnect V2 and setting up your app you can fo
 ### Init SDK
 Call the Initialize() method when your app first loads to initialize the SDK:
 ```
-var sc2 = require('steemconnect');
+var sc = require('steemconnect');
 
-var api = sc2.Initialize({
+var api = sc.Initialize({
   app: 'busy',
   callbackURL: 'http://localhost:8000/demo/',
   accessToken: 'access_token',
@@ -50,12 +50,12 @@ var api = sc2.Initialize({
 ```
 Parameters:
 - __app__: This is the name of the app that was registered in the SteemConnect V2 dashboard
-- __callbackURL__: This is the URL that users will be redirected to after interacting with SC2. It must be listed in the "Redirect URI(s)" list in the app settings EXACTLY the same as it is specified here
-- __accessToken__: If you have an oauth2 access token for this user already you can specify it here, otherwise you can leave it and set it later using sc2.setAccessToken(accessToken).
-- __scope__: This is a list of operations the app will be able to access on the user's account. For a complete list of scopes see: [https://github.com/steemit/steemconnect/wiki/OAuth-2#scopes](https://github.com/steemit/steemconnect/wiki/OAuth-2#scopes)
+- __callbackURL__: This is the URL that users will be redirected to after interacting with SteemConnect. It must be listed in the "Redirect URI(s)" list in the app settings EXACTLY the same as it is specified here
+- __accessToken__: If you have an oauth2 access token for this user already you can specify it here, otherwise you can leave it and set it later using sc.setAccessToken(accessToken).
+- __scope__: This is a list of operations the app will be able to access on the user's account. For a complete list of scopes see: [https://github.com/steemscript/steemconnect/wiki/OAuth-2#scopes](https://github.com/steemscript/steemconnect/wiki/OAuth-2#scopes)
 
 ### Get Login URL
-The following method returns a URL that you can redirect the user to so that they may log in to your app through SC2:
+The following method returns a URL that you can redirect the user to so that they may log in to your app through SteemConnect:
 ```
 var link = api.getLoginURL(state);
 console.log(link)
@@ -64,8 +64,8 @@ console.log(link)
 Parameters:
 - __state__: Data that will be passed to the callbackURL for your app after the user has logged in.
 
-After logging in, SC2 will redirect the user to the "redirect_uri" specified in the login url above and add the following query string parameters for your app to use:
-- __access_token__: This is the oauth2 access token that is required to make any Steem API calls on behalf of the current user. Once you have this you need to tell the SC2 SDK to use it by either specifying it as a parameter to the init() method call or by calling sc2.setAccessToken([accessToken]).
+After logging in, SteemConnect will redirect the user to the "redirect_uri" specified in the login url above and add the following query string parameters for your app to use:
+- __access_token__: This is the oauth2 access token that is required to make any Steem API calls on behalf of the current user. Once you have this you need to tell the SteemConnect.js to use it by either specifying it as a parameter to the init() method call or by calling sc2.setAccessToken([accessToken]).
 - __expires_in__: The number of seconds until the access token expires.
 - __username__: The username of the current user.
 
@@ -181,17 +181,3 @@ api.updateUserMetadata(metadata, function (err, res) {
   console.log(err, res)
 });
 ```
-
-## Changelog
-
-#### 2.0.0
-- Update to Webpack 4, fix import issue #50
-
-#### 1.0.2
-- Deprecate `v2.steemconnect.com` endpoint
-
-#### 1.0.1
-- Fixed response error checking.
-
-#### 1.0.0
-- Migrated to instance based architecture. You have to create new instance using `Initialize` function now. See documentation above.

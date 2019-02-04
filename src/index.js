@@ -18,6 +18,7 @@ class SDKError extends Error {
 function SteemConnect() {
   this.options = {
     baseURL: 'https://steemconnect.com',
+    apiURL: 'https://api.steemconnect.com',
     app: '',
     callbackURL: '',
     scope: [],
@@ -26,6 +27,9 @@ function SteemConnect() {
 
 SteemConnect.prototype.setBaseURL = function setBaseURL(baseURL) {
   this.options.baseURL = baseURL;
+};
+SteemConnect.prototype.setApiURL = function setApiURL(apiURL) {
+  this.options.apiURL = apiURL;
 };
 SteemConnect.prototype.setApp = function setApp(app) {
   this.options.app = app;
@@ -53,7 +57,7 @@ SteemConnect.prototype.getLoginURL = function getLoginURL(state) {
 };
 
 SteemConnect.prototype.send = function send(route, method, body, cb) {
-  const url = `${this.options.baseURL}/api/${route}`;
+  const url = `${this.options.apiURL}/api/${route}`;
   const promise = fetch(url, {
     method,
     headers: {
@@ -236,6 +240,7 @@ const Initialize = function Initialize(config) {
   }
 
   if (config.baseURL) instance.setBaseURL(config.baseURL);
+  if (config.apiURL) instance.setApiURL(config.apiURL);
   if (config.app) instance.setApp(config.app);
   if (config.callbackURL) instance.setCallbackURL(config.callbackURL);
   if (config.accessToken) instance.setAccessToken(config.accessToken);
