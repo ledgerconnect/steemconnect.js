@@ -27,7 +27,7 @@ function SteemConnect() {
 }
 
 /**
- * @deprecated since version 3.0.0
+ * @deprecated since version 2.1.0
  */
 SteemConnect.prototype.setBaseURL = function setBaseURL() {
   console.warn('The function "setBaseUrl" is deprecated.');
