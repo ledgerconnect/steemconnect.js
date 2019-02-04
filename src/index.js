@@ -4,6 +4,8 @@ import { encodeOps } from 'steem-uri';
 const BASE_URL = 'https://steemconnect.com';
 const API_URL = 'https://api.steemconnect.com';
 
+const hasChromeExtension = () => window && window._steemconnect;
+
 class SDKError extends Error {
   constructor(message, obj) {
     super(message);
@@ -61,6 +63,19 @@ SteemConnect.prototype.getLoginURL = function getLoginURL(state) {
   return loginURL;
 };
 
+SteemConnect.prototype.login = function login(options, cb) {
+  if (hasChromeExtension()) {
+    const params = {
+      app: this.app ? this.app : undefined,
+    };
+    window._steemconnect.login(params, cb);
+  } else if (window) {
+    const loginUrl = this.getLoginURL(options.state);
+    const win = window.open(loginUrl, '_blank');
+    win.focus();
+  }
+};
+
 SteemConnect.prototype.send = function send(route, method, body, cb) {
   const url = `${this.options.apiURL}/api/${route}`;
   const promise = fetch(url, {
@@ -94,7 +109,7 @@ SteemConnect.prototype.send = function send(route, method, body, cb) {
 };
 
 SteemConnect.prototype.broadcast = function broadcast(operations, cb) {
-  if (window && window._steemconnect) {
+  if (hasChromeExtension()) {
     const uri = encodeOps(operations);
     return window._steemconnect.sign(uri, cb);
   }
