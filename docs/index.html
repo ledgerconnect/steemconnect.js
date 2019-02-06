@@ -19,7 +19,10 @@
       Log in
     </button>
     <div v-if="username">
-      <p>You are logged as <b>{{username}}</b></p>
+      <p>
+        You are logged as <b>{{username}}</b>
+        <a href="#" @click="logout">logout</a>
+      </p>
       <input v-model="input" placeholder="Write a comment"/>
       <button @click="comment">
         Submit
@@ -27,14 +30,18 @@
       <p>
         <em>
           You are commenting on the post
-          <a href="https://steemit.com/@siol/test" target="_blank">@siol/test</a>
+          <a href="https://steemit.com/@siol/test" target="_blank">
+            @siol/test
+          </a>
         </em>
       </p>
     </div>
     <div v-if="txId">
       <p>
         The transaction has been broadcasted, here is the tx id:
-        <b><a :href="'https://steemd.com/tx/' + txId" target="_blank">{{txId}}</a></b>
+        <a :href="'https://steemd.com/tx/' + txId" target="_blank">
+          <b>{{txId}}</b>
+        </a>
       </p>
     </div>
   </div>
@@ -60,22 +67,29 @@ window.onload = function() {
       login: function () {
         const self = this;
         this.loading = true;
-        sc.login({}, function(err, result) {
-          self.username = result;
-          self.loading = false;
-          console.log(err, result);
+        sc.login(null, function(err, token) {
+          sc.setAccessToken(token);
+          sc.me(function(err, result) {
+            if (result) self.username = result.name;
+            if (err) self.error = err;
+            self.loading = false;
+            console.log(err, result);
+          });
         });
       },
       comment: function () {
         const self = this;
         this.loading = true;
         const permlink = 'steemconnect-' + new Date().getTime();
-        sc.comment('siol', 'test', 'steemguest', permlink, '', this.input, '', function(err, result) {
+        sc.comment('siol', 'test', this.username, permlink, '', this.input, '', function(err, result) {
           self.loading = false;
           if (result) self.txId = result.id;
-          if (err) self.error = error;
+          if (err) self.error = err;
           console.log(err, result);
         });
+      },
+      logout: function () {
+        this.username = null;
       }
     }
   });
@@ -87,7 +101,7 @@ html, body {
   margin: 0;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #333;
-  background-color: #050013;
+  background-color: #050036;
 }
 
 #main {

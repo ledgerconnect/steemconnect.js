@@ -66,7 +66,7 @@ SteemConnect.prototype.getLoginURL = function getLoginURL(state) {
 SteemConnect.prototype.login = function login(options, cb) {
   if (hasChromeExtension()) {
     const params = {
-      app: this.app ? this.app : undefined,
+      app: this.options.app ? this.options.app : undefined,
     };
     window._steemconnect.login(params, cb);
   } else if (window) {
