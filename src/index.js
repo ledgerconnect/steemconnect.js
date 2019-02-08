@@ -67,6 +67,7 @@ SteemConnect.prototype.login = function login(options, cb) {
   if (hasChromeExtension()) {
     const params = {
       app: this.options.app ? this.options.app : undefined,
+      authority: options.authority ? options.authority : undefined,
     };
     window._steemconnect.login(params, cb);
   } else if (window) {

@@ -67,7 +67,7 @@ window.onload = function() {
       login: function () {
         const self = this;
         this.loading = true;
-        sc.login(null, function(err, token) {
+        sc.login({}, function(err, token) {
           sc.setAccessToken(token);
           sc.me(function(err, result) {
             if (result) self.username = result.name;
