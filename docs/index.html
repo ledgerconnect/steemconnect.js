@@ -3,38 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>SteemConnect example with Vue.js</title>
+  <link rel="stylesheet" href="https://unpkg.com/primer-css@9.6.0/build/build.css" />
   <script src="https://unpkg.com/vue@latest/dist/vue.js"></script>
-  <script src="https://unpkg.com/marked@0.3.6"></script>
-  <script src="https://unpkg.com/lodash@4.16.0"></script>
   <script src="../dist/steemconnect.min.js"></script>
 </head>
 <body>
 
-<div id="main" v-cloak>
+<div id="main" class="p-6 text-center" v-cloak>
   <div v-if="loading">
     Loading...
   </div>
   <div v-else>
-    <button v-if="!username" @click="login">
+    <button v-if="!username" @click="login" class="btn btn-large btn-primary">
       Log in
     </button>
     <div v-if="username">
-      <p>
+      <p class="mb-4">
         You are logged as <b>{{username}}</b>
         <a href="#" @click="logout">logout</a>
       </p>
-      <input v-model="input" placeholder="Write a comment"/>
-      <button @click="comment">
+      <h4 class="mb-2">
+        Comment on the post
+        <a href="https://steemit.com/@siol/test" target="_blank">
+          @siol/test
+        </a>
+      </h4>
+      <input
+        v-model="input"
+        placeholder="Write a comment"
+        class="form-control mb-2"
+      />
+      <button @click="comment" class="btn btn-primary mb-2">
         Submit
       </button>
-      <p>
-        <em>
-          You are commenting on the post
-          <a href="https://steemit.com/@siol/test" target="_blank">
-            @siol/test
-          </a>
-        </em>
-      </p>
     </div>
     <div v-if="txId">
       <p>
@@ -63,15 +64,31 @@ window.onload = function() {
       txId: null,
       error: null
     },
+    mounted: function () {
+      const token = localStorage.getItem('sc_token');
+      if (token) {
+        const self = this;
+        this.loading = true;
+        sc.setAccessToken(token);
+        sc.me(function(err, result) {
+          if (result) self.username = result.name;
+          if (err) self.error = err;
+          self.loading = false;
+          console.log(err, result);
+        });
+      }
+    },
     methods: {
       login: function () {
         const self = this;
         this.loading = true;
         sc.login({}, function(err, token) {
+          if (err) return self.loading = false;
           sc.setAccessToken(token);
           sc.me(function(err, result) {
             if (result) self.username = result.name;
             if (err) self.error = err;
+            localStorage.setItem('sc_token', token);
             self.loading = false;
             console.log(err, result);
           });
@@ -90,6 +107,7 @@ window.onload = function() {
       },
       logout: function () {
         this.username = null;
+        localStorage.removeItem('sc_token');
       }
     }
   });
@@ -97,48 +115,8 @@ window.onload = function() {
 </script>
 
 <style type="text/css">
-html, body {
-  margin: 0;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  color: #333;
-  background-color: #050036;
-}
-
-#main {
-  background-color: white;
-  height: 100%;
-  padding: 15px;
-  max-width: 600px;
-  margin: 20px auto;
-}
-
-button {
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  background-color: #1500ff;
-  padding: 12px 16px;
-  border-radius: 6px;
-  border: none;
-  height: 48px;
-}
-
-input {
-  cursor: pointer;
-  font-size: 16px;
-  padding: 11px 15px;
-  border-radius: 6px;
-  border: 1px solid #CCC;
-  height: 24px;
-}
-
 [v-cloak] {
   display: none;
-}
-
-* {
-  outline: none;
 }
 </style>
 
