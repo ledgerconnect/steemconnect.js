@@ -50,8 +50,8 @@
 
 <script type="text/javascript">
 const sc = steemconnect.Initialize({
-  app: 'busy.app',
-  callbackURL: 'http://localhost:3000/callback'
+  app: 'staging.app',
+  callbackURL: 'https://steemscript.github.io/steemconnect.js'
 });
 
 window.onload = function() {
@@ -62,10 +62,11 @@ window.onload = function() {
       input: null,
       loading: false,
       txId: null,
-      error: null
+      error: null,
     },
     mounted: function () {
-      const token = localStorage.getItem('sc_token');
+      let params = (new URL(location)).searchParams;
+      const token = params.get('access_token') || localStorage.getItem('sc_token');
       if (token) {
         const self = this;
         this.loading = true;
@@ -73,6 +74,7 @@ window.onload = function() {
         sc.me(function(err, result) {
           if (result) self.username = result.name;
           if (err) self.error = err;
+          localStorage.setItem('sc_token', token);
           self.loading = false;
           console.log(err, result);
         });
