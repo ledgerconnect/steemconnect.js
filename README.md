@@ -1,5 +1,5 @@
 [![npm](https://img.shields.io/npm/v/steemconnect.svg)](https://www.npmjs.com/package/steemconnect)
-![CircleCI](https://img.shields.io/circleci/project/github/steemscript/steemconnect.js.svg)
+![npm](https://img.shields.io/npm/dm/steemconnect.svg)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/steemscript/steemconnect.js/master/LICENSE)
 
 # SteemConnect.js

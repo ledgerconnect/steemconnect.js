@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SteemConnect example with Vue.js</title>
+  <link rel="stylesheet" href="https://unpkg.com/primer-css@9.6.0/build/build.css" />
+  <script src="https://unpkg.com/vue@latest/dist/vue.js"></script>
+  <script src="../dist/steemconnect.min.js"></script>
+</head>
+<body>
+
+<div id="main" class="p-6 text-center" v-cloak>
+  <div v-if="loading">
+    Loading...
+  </div>
+  <div v-else>
+    <button v-if="!username" @click="login" class="btn btn-large btn-primary">
+      Log in
+    </button>
+    <div v-if="username">
+      <p class="mb-4">
+        You are logged as <b>{{username}}</b>
+        <a href="#" @click="logout">logout</a>
+      </p>
+      <h4 class="mb-2">
+        Comment on the post
+        <a href="https://steemit.com/@siol/test" target="_blank">
+          @siol/test
+        </a>
+      </h4>
+      <input
+        v-model="input"
+        placeholder="Write a comment"
+        class="form-control mb-2"
+      />
+      <button @click="comment" class="btn btn-primary mb-2">
+        Submit
+      </button>
+    </div>
+    <div v-if="txId">
+      <p>
+        The transaction has been broadcasted, here is the tx id:
+        <a :href="'https://steemd.com/tx/' + txId" target="_blank">
+          <b>{{txId}}</b>
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+const sc = steemconnect.Initialize({
+  app: 'staging.app',
+  callbackURL: 'https://steemscript.github.io/steemconnect.js'
+});
+
+window.onload = function() {
+  new Vue({
+    el: '#main',
+    data: {
+      username: null,
+      input: null,
+      loading: false,
+      txId: null,
+      error: null,
+    },
+    mounted: function () {
+      let params = (new URL(location)).searchParams;
+      const token = params.get('access_token') || localStorage.getItem('sc_token');
+      if (token) {
+        const self = this;
+        this.loading = true;
+        sc.setAccessToken(token);
+        sc.me(function(err, result) {
+          if (result) self.username = result.name;
+          if (err) self.error = err;
+          localStorage.setItem('sc_token', token);
+          self.loading = false;
+          console.log(err, result);
+        });
+      }
+    },
+    methods: {
+      login: function () {
+        const self = this;
+        this.loading = true;
+        sc.login({}, function(err, token) {
+          if (err) return self.loading = false;
+          sc.setAccessToken(token);
+          sc.me(function(err, result) {
+            if (result) self.username = result.name;
+            if (err) self.error = err;
+            localStorage.setItem('sc_token', token);
+            self.loading = false;
+            console.log(err, result);
+          });
+        });
+      },
+      comment: function () {
+        const self = this;
+        this.loading = true;
+        const permlink = 'steemconnect-' + new Date().getTime();
+        sc.comment('siol', 'test', this.username, permlink, '', this.input, '', function(err, result) {
+          self.loading = false;
+          if (result) self.txId = result.id;
+          if (err) self.error = err;
+          console.log(err, result);
+        });
+      },
+      logout: function () {
+        this.username = null;
+        localStorage.removeItem('sc_token');
+      }
+    }
+  });
+};
+</script>
+
+<style type="text/css">
+[v-cloak] {
+  display: none;
+}
+</style>
+
+</body>
+</html>

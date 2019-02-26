@@ -1,7 +1,8 @@
 const path = require('path');
 const Visualizer = require('webpack-visualizer-plugin');
+const pkg = require('./package.json');
 
-const libraryName = 'sc2';
+const libraryName = pkg.name;
 
 const config = {
   mode: 'production',
