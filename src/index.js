@@ -71,9 +71,7 @@ SteemConnect.prototype.login = function login(options, cb) {
     };
     window._steemconnect.login(params, cb);
   } else if (window) {
-    const loginUrl = this.getLoginURL(options.state);
-    const win = window.open(loginUrl, '_blank');
-    win.focus();
+    window.location = this.getLoginURL(options.state);
   }
 };
 
