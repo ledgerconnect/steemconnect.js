@@ -159,6 +159,22 @@ SteemConnect.prototype.deleteComment = function deleteComment(author, permlink, 
   return this.broadcast([['delete_comment', params]], cb);
 };
 
+SteemConnect.prototype.customJson = function customJson(
+  requiredAuths,
+  requiredPostingAuths,
+  id,
+  json,
+  cb,
+) {
+  const params = {
+    required_auths: requiredAuths,
+    required_posting_auths: requiredPostingAuths,
+    id,
+    json,
+  };
+  return this.broadcast([['custom_json', params]], cb);
+};
+
 SteemConnect.prototype.reblog = function reblog(account, author, permlink, cb) {
   const params = {
     required_auths: [],
