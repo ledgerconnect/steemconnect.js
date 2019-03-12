@@ -6,26 +6,12 @@ const API_URL = 'https://api.steemconnect.com';
 
 const hasChromeExtension = () => window && window._steemconnect;
 
-class SDKError extends Error {
-  constructor(message, obj) {
-    super(message);
-    this.name = 'SDKError';
-    this.error = obj.error;
-    this.error_description = obj.error_description;
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, this.constructor);
-    } else {
-      this.stack = new Error(message).stack;
-    }
-  }
-}
-
 const sign = (name, params, redirectUri) => {
   if (typeof name !== 'string' || typeof params !== 'object') {
-    return new SDKError('steemconnect error', {
+    return {
       error: 'invalid_request',
       error_description: 'Request has an invalid format',
-    });
+    };
   }
   let url = `${BASE_URL}/sign/${name}?`;
   url += Object.keys(params)
@@ -118,13 +104,13 @@ class Client {
       .then(res => {
         const json = res.json();
         if (res.status !== 200) {
-          return json.then(result => Promise.reject(new SDKError('steemconnect error', result)));
+          return json.then(result => Promise.reject(result));
         }
         return json;
       })
       .then(res => {
         if (res.error) {
-          return Promise.reject(new SDKError('steemconnect error', res));
+          return Promise.reject(res);
         }
         return res;
       });
@@ -255,7 +241,10 @@ class Client {
   }
 }
 
-const Initialize = config => new Client(config);
+const Initialize = config => {
+  console.warn('The function "Initialize" is deprecated, please use the class "Client" instead.');
+  return new Client(config);
+};
 
 export default {
   Client,
