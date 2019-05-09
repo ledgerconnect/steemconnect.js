@@ -237,6 +237,7 @@ class Client {
   }
 
   updateUserMetadata(metadata = {}, cb) {
+    console.warn('The function "updateUserMetadata" is deprecated.');
     return this.send('me', 'PUT', { user_metadata: metadata }, cb);
   }
 }
