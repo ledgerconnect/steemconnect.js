@@ -5,7 +5,7 @@
   <title>SteemConnect demo with Vue.js</title>
   <link rel="stylesheet" href="https://unpkg.com/primer-css@9.6.0/build/build.css" />
   <script src="https://unpkg.com/vue@latest/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/steemconnect@3.0.0-beta.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/steemconnect@3.0.0-beta.2"></script>
   <!-- <script src="../dist/steemconnect.min.js"></script> -->
 </head>
 <body>
@@ -14,40 +14,51 @@
   <div class="bg-gray text-center mb-4 p-4 rounded">
     <h3>SteemConnect demo with Vue.js</h3>
     <p>
-      <a
-        target="_blank"
-        href="https://github.com/steemscript/steemconnect.js/blob/master/docs/index.html"
-      >
+      <a target="_blank" href="https://github.com/steemscript/steemconnect.js/blob/master/docs/index.html">
         See the code on GitHub
       </a>
     </p>
   </div>
+
   <p v-if="!isInit">Loading...</p>
   <div v-else>
-    <button
-      v-if="!username"
-      @click="login"
-      class="btn btn-large btn-primary"
-    >
-      Log in
-    </button>
+    <div v-if="!username" class="text-center">
+      <input
+        type="text"
+        v-if="useSteemKeychain"
+        v-model="form.username"
+        class="form-control input-lg"
+        placeholder="Your username, ei: ned"
+        :disabled="isLoading"
+      />
+
+      <button @click="login" class="btn btn-primary" :disabled="isLoading">
+        Log in
+      </button>
+    </div>
+
     <div v-if="username">
       <p class="mb-4">
         You are logged as <b>{{username}}</b>
         <a href="#" @click="logout">logout</a>
       </p>
+
       <p class="mb-2">
         Comment on the post
-        <a href="https://steemit.com/@siol/test" target="_blank">
-          @siol/test
-        </a>
+        <b>
+          <a :href="`https://steemit.com/@${parentAuthor}/${parentPermlink}`" target="_blank">
+            @{{ parentAuthor }}/{{ parentPermlink }}
+          </a>
+        </b>
       </p>
+
       <textarea
-        v-model="input"
+        v-model="form.comment"
         placeholder="Write a comment"
         class="form-control mb-2 btn-block text-left"
         :disabled="isLoading"
       ></textarea>
+
       <div v-if="txId" class="flash flash-success mb-2">
         <p>
           The transaction has been broadcasted, here is the tx id:
@@ -56,15 +67,17 @@
           </a>
         </p>
       </div>
+
       <div v-if="error" class="flash flash-error mb-2">
-        <p>{{ error.error_description || error.error }}</p>
+        <p>{{ error.error_description || error.error || error }}</p>
       </div>
-      <button
-        @click="comment"
-        class="btn btn-primary mb-2"
-        :disabled="isLoading"
-      >
-        Submit
+
+      <button @click="comment" class="btn btn-primary mb-2 mr-1" :disabled="isLoading">
+        Comment
+      </button>
+
+      <button @click="vote" class="btn mb-2" :disabled="isLoading">
+        Upvote
       </button>
     </div>
   </div>
@@ -81,11 +94,18 @@ window.onload = function() {
     el: '#main',
     data: {
       username: null,
-      input: null,
+      form: {
+        username: null,
+        comment: null,
+      },
       isInit: false,
       isLoading: false,
       txId: null,
       error: null,
+      useSteemKeychain: window && !window._steemconnect && window.steem_keychain,
+      parentAuthor: 'steemguest',
+      parentPermlink: '4lx1se-test-post',
+
     },
     mounted: function () {
       let params = (new URL(location)).searchParams;
@@ -94,6 +114,7 @@ window.onload = function() {
         const self = this;
         this.isInit = false;
         sc.setAccessToken(token);
+
         sc.me(function(err, result) {
           if (result) self.username = result.name;
           if (err) self.error = err;
@@ -109,27 +130,46 @@ window.onload = function() {
       login: function () {
         const self = this;
         this.isLoading = true;
-        sc.login({}, function(err, token) {
+
+        const loginObj = {};
+        if (this.form.username) loginObj.username = this.form.username;
+
+        sc.login(loginObj, function(err, token) {
           if (err) return self.isLoading = false;
           sc.setAccessToken(token);
+
           sc.me(function(err, result) {
             if (result) self.username = result.name;
             if (err) self.error = err;
             localStorage.setItem('sc_token', token);
             self.isLoading = false;
-            console.log(err, result);
+            console.log('Log in result', err, result);
           });
         });
       },
       comment: function () {
         const self = this;
         this.isLoading = true;
+
         const permlink = 'steemconnect-' + new Date().getTime();
-        sc.comment('siol', 'test', this.username, permlink, '', this.input, '', function(err, result) {
+        const jsonMetadata = JSON.stringify({ tags: ['steemconnect'], app: 'steemconnect' });
+
+        sc.comment(this.parentAuthor, this.parentPermlink, this.username, permlink, '', this.form.comment, jsonMetadata, function(err, result) {
           self.isLoading = false;
           if (result) self.txId = result.result.id;
           if (err) self.error = err;
-          console.log(err, result);
+          console.log('Comment result', err, result);
+        });
+      },
+      vote: function () {
+        const self = this;
+        this.isLoading = true;
+
+        sc.vote(this.username, this.parentAuthor, this.parentPermlink, 10000, function(err, result) {
+          self.isLoading = false;
+          if (result) self.txId = result.result.id;
+          if (err) self.error = err;
+          console.log('Vote result', err, result);
         });
       },
       logout: function () {

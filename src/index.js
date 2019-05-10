@@ -5,8 +5,10 @@ const BASE_URL = 'https://steemconnect.com';
 const API_URL = 'https://api.steemconnect.com';
 
 const hasChromeExtension = () => window && window._steemconnect;
+const hasSteemKeychain = () => window && window.steem_keychain;
 
 const sign = (name, params, redirectUri) => {
+  console.warn('The function "setBaseUrl" is deprecated.');
   if (typeof name !== 'string' || typeof params !== 'object') {
     return {
       error: 'invalid_request',
@@ -85,6 +87,26 @@ class Client {
       if (this.app) params.app = this.app;
       if (options.authority) params.authority = options.authority;
       window._steemconnect.login(params, cb);
+    } else if (hasSteemKeychain() && options.username) {
+      const signedMessageObj = { type: 'login' };
+      if (this.app) signedMessageObj.app = this.app;
+      const timestamp = parseInt(new Date().getTime() / 1000, 10);
+      const messageObj = {
+        signed_message: signedMessageObj,
+        authors: [options.username],
+        timestamp,
+      };
+      window.steem_keychain.requestSignBuffer(
+        options.username,
+        JSON.stringify(messageObj),
+        'Posting',
+        response => {
+          if (response.error) return cb(response.error);
+          messageObj.signatures = [response.result];
+          const token = btoa(JSON.stringify(messageObj));
+          return cb(null, token);
+        },
+      );
     } else if (window) {
       window.location = this.getLoginURL(options.state);
     }
@@ -133,6 +155,12 @@ class Client {
   }
 
   vote(voter, author, permlink, weight, cb) {
+    if (!hasChromeExtension() && hasSteemKeychain()) {
+      return window.steem_keychain.requestVote(voter, permlink, author, weight, response => {
+        if (response.error) return cb(response.error);
+        return cb(null, response);
+      });
+    }
     const params = {
       voter,
       author,
@@ -143,6 +171,22 @@ class Client {
   }
 
   comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, cb) {
+    if (!hasChromeExtension() && hasSteemKeychain()) {
+      return window.steem_keychain.requestPost(
+        author,
+        title,
+        body,
+        parentPermlink,
+        parentAuthor,
+        jsonMetadata,
+        permlink,
+        '',
+        response => {
+          if (response.error) return cb(response.error);
+          return cb(null, response);
+        },
+      );
+    }
     const params = {
       parent_author: parentAuthor,
       parent_permlink: parentPermlink,
@@ -164,6 +208,19 @@ class Client {
   }
 
   customJson(requiredAuths, requiredPostingAuths, id, json, cb) {
+    if (!hasChromeExtension() && hasSteemKeychain()) {
+      return window.steem_keychain.requestCustomJson(
+        requiredPostingAuths[0],
+        id,
+        'Posting',
+        json,
+        '',
+        response => {
+          if (response.error) return cb(response.error);
+          return cb(null, response);
+        },
+      );
+    }
     const params = {
       required_auths: requiredAuths,
       required_posting_auths: requiredPostingAuths,
@@ -174,50 +231,23 @@ class Client {
   }
 
   reblog(account, author, permlink, cb) {
-    const params = {
-      required_auths: [],
-      required_posting_auths: [account],
-      id: 'follow',
-      json: JSON.stringify([
-        'reblog',
-        {
-          account,
-          author,
-          permlink,
-        },
-      ]),
-    };
-    return this.broadcast([['custom_json', params]], cb);
+    const json = ['reblog', { account, author, permlink }];
+    return this.customJson([], [account], 'follow', JSON.stringify(json), cb);
   }
 
   follow(follower, following, cb) {
-    const params = {
-      required_auths: [],
-      required_posting_auths: [follower],
-      id: 'follow',
-      json: JSON.stringify(['follow', { follower, following, what: ['blog'] }]),
-    };
-    return this.broadcast([['custom_json', params]], cb);
+    const json = ['follow', { follower, following, what: ['blog'] }];
+    return this.customJson([], [follower], 'follow', JSON.stringify(json), cb);
   }
 
   unfollow(unfollower, unfollowing, cb) {
-    const params = {
-      required_auths: [],
-      required_posting_auths: [unfollower],
-      id: 'follow',
-      json: JSON.stringify(['follow', { follower: unfollower, following: unfollowing, what: [] }]),
-    };
-    return this.broadcast([['custom_json', params]], cb);
+    const json = ['follow', { follower: unfollower, following: unfollowing, what: [] }];
+    return this.customJson([], [unfollower], 'follow', JSON.stringify(json), cb);
   }
 
   ignore(follower, following, cb) {
-    const params = {
-      required_auths: [],
-      required_posting_auths: [follower],
-      id: 'follow',
-      json: JSON.stringify(['follow', { follower, following, what: ['ignore'] }]),
-    };
-    return this.broadcast([['custom_json', params]], cb);
+    const json = ['follow', { follower, following, what: ['ignore'] }];
+    return this.customJson([], [follower], 'follow', JSON.stringify(json), cb);
   }
 
   claimRewardBalance(account, rewardSteem, rewardSbd, rewardVests, cb) {
@@ -237,6 +267,7 @@ class Client {
   }
 
   updateUserMetadata(metadata = {}, cb) {
+    console.warn('The function "updateUserMetadata" is deprecated.');
     return this.send('me', 'PUT', { user_metadata: metadata }, cb);
   }
 }
