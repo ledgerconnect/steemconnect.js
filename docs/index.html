@@ -156,7 +156,7 @@ window.onload = function() {
 
         sc.comment(this.parentAuthor, this.parentPermlink, this.username, permlink, '', this.form.comment, jsonMetadata, function(err, result) {
           self.isLoading = false;
-          if (result) self.txId = result.result.id;
+          if (result) self.txId = result.id || result.result.id;
           if (err) self.error = err;
           console.log('Comment result', err, result);
         });
