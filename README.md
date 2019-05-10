@@ -37,11 +37,11 @@ For general information about SteemConnect V2 and setting up your app you can fo
 
 ## SDK Methods
 ### Init SDK
-Call the Initialize() method when your app first loads to initialize the SDK:
+Call the Client() method when your app first loads to init the SDK:
 ```
-var sc = require('steemconnect');
+var steemconnect = require('steemconnect');
 
-var api = sc.Initialize({
+var api = new steemconnect.Client({
   app: 'busy',
   callbackURL: 'http://localhost:8000/demo/',
   accessToken: 'access_token',
@@ -51,7 +51,7 @@ var api = sc.Initialize({
 Parameters:
 - __app__: This is the name of the app that was registered in the SteemConnect V2 dashboard
 - __callbackURL__: This is the URL that users will be redirected to after interacting with SteemConnect. It must be listed in the "Redirect URI(s)" list in the app settings EXACTLY the same as it is specified here
-- __accessToken__: If you have an oauth2 access token for this user already you can specify it here, otherwise you can leave it and set it later using sc.setAccessToken(accessToken).
+- __accessToken__: If you have an oauth2 access token for this user already you can specify it here, otherwise you can leave it and set it later using steemconnect.setAccessToken(accessToken).
 - __scope__: This is a list of operations the app will be able to access on the user's account. For a complete list of scopes see: [https://github.com/steemscript/steemconnect/wiki/OAuth-2#scopes](https://github.com/steemscript/steemconnect/wiki/OAuth-2#scopes)
 
 ### Get Login URL
@@ -119,19 +119,6 @@ api.deleteComment(author, permlink, function (err, res) {
 })
 ```
 
-### Generate hot signing link
-The sign() method creates a URL to which your app can redirect the user to perform a signed transaction on the blockchain such as a transfer or delegation:
-```
-var link = api.sign('transfer', {
-  to: 'fabien',
-  amount: '1.000 STEEM',
-  memo: 'Hello World!',
-}, 'http://localhost:8000/demo/transfer-complete');
-
-console.log(link);
-// => https://steemconnect.com/sign/transfer?to=fabien&amount=1.000%20STEEM&memo=Hello%20World!&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fdemo%2Ftransfer-complete
-```
-
 ### Logout
 The revokeToken() method will log the current user out of your application by revoking the access token provided to your app for that user: 
 ```
@@ -171,13 +158,6 @@ api.ignore(follower, following, function (err, res) {
 ### Claim Reward Balance
 ```
 api.claimRewardBalance(account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
-  console.log(err, res)
-});
-```
-
-### Update User Metadata
-```
-api.updateUserMetadata(metadata, function (err, res) {
   console.log(err, res)
 });
 ```

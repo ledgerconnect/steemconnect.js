@@ -8,6 +8,7 @@ const hasChromeExtension = () => window && window._steemconnect;
 const hasSteemKeychain = () => window && window.steem_keychain;
 
 const sign = (name, params, redirectUri) => {
+  console.warn('The function "setBaseUrl" is deprecated.');
   if (typeof name !== 'string' || typeof params !== 'object') {
     return {
       error: 'invalid_request',
