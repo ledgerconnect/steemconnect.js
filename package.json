@@ -1,6 +1,6 @@
 {
   "name": "steemconnect",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "description": "SteemConnect JavaScript SDK",
   "homepage": "https://steemconnect.com",
   "browser": "dist/steemconnect.min.js",
