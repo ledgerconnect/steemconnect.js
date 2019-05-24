@@ -6,22 +6,7 @@ const API_URL = 'https://api.steemconnect.com';
 
 const hasChromeExtension = () => window && window._steemconnect;
 const hasSteemKeychain = () => window && window.steem_keychain;
-
-const sign = (name, params, redirectUri) => {
-  console.warn('The function "setBaseUrl" is deprecated.');
-  if (typeof name !== 'string' || typeof params !== 'object') {
-    return {
-      error: 'invalid_request',
-      error_description: 'Request has an invalid format',
-    };
-  }
-  let url = `${BASE_URL}/sign/${name}?`;
-  url += Object.keys(params)
-    .map(key => `${key}=${encodeURIComponent(params[key])}`)
-    .join('&');
-  url += redirectUri ? `&redirect_uri=${encodeURIComponent(redirectUri)}` : '';
-  return url;
-};
+const useSteemKeychain = () => !hasChromeExtension() && hasSteemKeychain();
 
 class Client {
   constructor(config) {
@@ -30,10 +15,13 @@ class Client {
     this.callbackURL = config.callbackURL;
     this.accessToken = config.accessToken;
     this.scope = config.scope || [];
+    this.responseType = config.responseType;
   }
 
   setBaseURL() {
-    console.warn('The function "setBaseUrl" is deprecated.');
+    console.warn(
+      'The function "setBaseUrl" is deprecated, the base URL is always "https://steemconnect.com", you can only change the API URL with "setApiURL"',
+    );
     return this;
   }
 
@@ -73,11 +61,11 @@ class Client {
   }
 
   getLoginURL(state) {
-    let loginURL = `${BASE_URL}/oauth2/authorize?client_id=${
-      this.app
-    }&redirect_uri=${encodeURIComponent(this.callbackURL)}`;
-    loginURL += this.scope ? `&scope=${this.scope.join(',')}` : '';
-    loginURL += state ? `&state=${encodeURIComponent(state)}` : '';
+    const redirectUri = encodeURIComponent(this.callbackURL);
+    let loginURL = `${BASE_URL}/oauth2/authorize?client_id=${this.app}&redirect_uri=${redirectUri}`;
+    if (this.responseType === 'code') loginURL += `&response_type=${this.responseType}`;
+    if (this.scope) loginURL += `&scope=${this.scope.join(',')}`;
+    if (state) loginURL += `&state=${encodeURIComponent(state)}`;
     return loginURL;
   }
 
@@ -155,7 +143,7 @@ class Client {
   }
 
   vote(voter, author, permlink, weight, cb) {
-    if (!hasChromeExtension() && hasSteemKeychain()) {
+    if (useSteemKeychain) {
       return window.steem_keychain.requestVote(voter, permlink, author, weight, response => {
         if (response.error) return cb(response.error);
         return cb(null, response);
@@ -171,7 +159,7 @@ class Client {
   }
 
   comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, cb) {
-    if (!hasChromeExtension() && hasSteemKeychain()) {
+    if (useSteemKeychain) {
       return window.steem_keychain.requestPost(
         author,
         title,
@@ -208,7 +196,7 @@ class Client {
   }
 
   customJson(requiredAuths, requiredPostingAuths, id, json, cb) {
-    if (!hasChromeExtension() && hasSteemKeychain()) {
+    if (useSteemKeychain()) {
       return window.steem_keychain.requestCustomJson(
         requiredPostingAuths[0],
         id,
@@ -277,8 +265,27 @@ const Initialize = config => {
   return new Client(config);
 };
 
+const sign = (name, params, redirectUri) => {
+  console.warn('The function "sign" is deprecated.');
+  if (typeof name !== 'string' || typeof params !== 'object') {
+    return {
+      error: 'invalid_request',
+      error_description: 'Request has an invalid format',
+    };
+  }
+  let url = `${BASE_URL}/sign/${name}?`;
+  url += Object.keys(params)
+    .map(key => `${key}=${encodeURIComponent(params[key])}`)
+    .join('&');
+  url += redirectUri ? `&redirect_uri=${encodeURIComponent(redirectUri)}` : '';
+  return url;
+};
+
 export default {
   Client,
   Initialize,
   sign,
+  hasChromeExtension,
+  hasSteemKeychain,
+  useSteemKeychain,
 };
