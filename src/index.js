@@ -143,7 +143,7 @@ class Client {
   }
 
   vote(voter, author, permlink, weight, cb) {
-    if (useSteemKeychain) {
+    if (useSteemKeychain()) {
       return window.steem_keychain.requestVote(voter, permlink, author, weight, response => {
         if (response.error) return cb(response.error);
         return cb(null, response);
@@ -159,7 +159,7 @@ class Client {
   }
 
   comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, cb) {
-    if (useSteemKeychain) {
+    if (useSteemKeychain()) {
       return window.steem_keychain.requestPost(
         author,
         title,
