@@ -5,7 +5,7 @@
   <title>SteemConnect demo with Vue.js</title>
   <link rel="stylesheet" href="https://unpkg.com/primer-css@9.6.0/build/build.css" />
   <script src="https://unpkg.com/vue@latest/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/steemconnect@3.0.0-beta.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/steemconnect"></script>
   <!-- <script src="../dist/steemconnect.min.js"></script> -->
 </head>
 <body>
@@ -84,7 +84,7 @@
 </div>
 
 <script type="text/javascript">
-const sc = new steemconnect.Client({
+const client = new steemconnect.Client({
   app: 'staging.app',
   callbackURL: 'https://demo.steemconnect.com'
 });
@@ -113,9 +113,9 @@ window.onload = function() {
       if (token) {
         const self = this;
         this.isInit = false;
-        sc.setAccessToken(token);
+        client.setAccessToken(token);
 
-        sc.me(function(err, result) {
+        client.me(function(err, result) {
           if (result) self.username = result.name;
           if (err) self.error = err;
           localStorage.setItem('sc_token', token);
@@ -134,16 +134,17 @@ window.onload = function() {
         const loginObj = {};
         if (this.form.username) loginObj.username = this.form.username;
 
-        sc.login(loginObj, function(err, token) {
+        client.login(loginObj, function(err, token) {
+          console.log('Log in result', err, result);
           if (err) return self.isLoading = false;
-          sc.setAccessToken(token);
+          client.setAccessToken(token);
 
-          sc.me(function(err, result) {
+          client.me(function(err, result) {
+            console.log('Verification result', err, result);
             if (result) self.username = result.name;
             if (err) self.error = err;
             localStorage.setItem('sc_token', token);
             self.isLoading = false;
-            console.log('Log in result', err, result);
           });
         });
       },
@@ -154,22 +155,22 @@ window.onload = function() {
         const permlink = 'steemconnect-' + new Date().getTime();
         const jsonMetadata = JSON.stringify({ tags: ['steemconnect'], app: 'steemconnect' });
 
-        sc.comment(this.parentAuthor, this.parentPermlink, this.username, permlink, '', this.form.comment, jsonMetadata, function(err, result) {
+        client.comment(this.parentAuthor, this.parentPermlink, this.username, permlink, '', this.form.comment, jsonMetadata, function(err, result) {
+          console.log('Comment result', err, result);
           self.isLoading = false;
           if (result) self.txId = result.id || result.result.id;
           if (err) self.error = err;
-          console.log('Comment result', err, result);
         });
       },
       vote: function () {
         const self = this;
         this.isLoading = true;
 
-        sc.vote(this.username, this.parentAuthor, this.parentPermlink, 10000, function(err, result) {
-          self.isLoading = false;
-          if (result) self.txId = result.result.id;
-          if (err) self.error = err;
+        client.vote(this.username, this.parentAuthor, this.parentPermlink, 10000, function(err, result) {
           console.log('Vote result', err, result);
+          self.isLoading = false;
+          if (result) self.txId = result.id || result.result.id;
+          if (err) self.error = err;
         });
       },
       logout: function () {

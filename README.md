@@ -1,10 +1,11 @@
 [![npm](https://img.shields.io/npm/v/steemconnect.svg)](https://www.npmjs.com/package/steemconnect)
 ![npm](https://img.shields.io/npm/dm/steemconnect.svg)
+![CircleCI](https://img.shields.io/circleci/project/github/steemscript/steemconnect.js.svg)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/steemscript/steemconnect.js/master/LICENSE)
 
 # SteemConnect.js
 
-SteemConnect JavaScript SDK.
+The official SteemConnect JavaScript SDK.
 
 ## Getting started
 
@@ -25,26 +26,25 @@ npm i steemconnect --save
 You can create an index.html file and include SteemConnect.js with:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/steemconnect@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/steemconnect"></script>
 ```
 
 ### Usage
 
-For general information about SteemConnect V2 and setting up your app you can follow these guides:
+For general information about SteemConnect and setting up your app you can checkout the developer documentation.
 
-- [How to configure SteemConnect v2 and use it with your application](https://steemit.com/steemconnect/@noisy/how-to-configure-steemconnect-v2-and-use-it-with-your-application-how-it-works-and-how-it-is-different-from-v1)
-- [JS: Steemconnect - Steem Developer](https://developers.steem.io/tutorials-javascript/steemconnect)
+**[Developers documentation](https://beta.steemconnect.com/developers)**
 
-## SDK Methods
-### Init SDK
+## SDK methods
+
+### Init client
 Call the Client() method when your app first loads to init the SDK:
 ```
 var steemconnect = require('steemconnect');
 
-var api = new steemconnect.Client({
-  app: 'busy',
-  callbackURL: 'http://localhost:8000/demo/',
-  accessToken: 'access_token',
+var client = new steemconnect.Client({
+  app: 'staging.app',
+  callbackURL: 'https://demo.steemconnect.com',
   scope: ['vote', 'comment']
 });
 ```
@@ -54,11 +54,27 @@ Parameters:
 - __accessToken__: If you have an oauth2 access token for this user already you can specify it here, otherwise you can leave it and set it later using steemconnect.setAccessToken(accessToken).
 - __scope__: This is a list of operations the app will be able to access on the user's account. For a complete list of scopes see: [https://github.com/steemscript/steemconnect/wiki/OAuth-2#scopes](https://github.com/steemscript/steemconnect/wiki/OAuth-2#scopes)
 
-### Get Login URL
+### Universal log in
+
+This method trigger SteemConnect Chrome extension or Steem Keychain for log in, if user don't have Chrome extension enabled it will fallback to SteemConnect website.
+
+```
+var params = {};
+
+// The "username" parameter is required prior to log in for "Steem Keychain" users.
+if (steemconnect.useSteemKeychain) {
+  params = { username: 'fabien' };
+}
+
+client.login(params, function(err, token) {
+  console.log(err, token)
+});
+```
+
+### Get login URL for OAuth 2
 The following method returns a URL that you can redirect the user to so that they may log in to your app through SteemConnect:
 ```
-var link = api.getLoginURL(state);
-console.log(link)
+var link = client.getLoginURL(state);
 // => https://steemconnect.com/oauth2/authorize?client_id=[app]&redirect_uri=[callbackURL]&scope=vote,comment&state=[state]
 ```
 Parameters:
@@ -72,7 +88,7 @@ After logging in, SteemConnect will redirect the user to the "redirect_uri" spec
 ### Get user profile
 Once a user is logged in to your app you can call the following method to get the details of their account:
 ```
-api.me(function (err, res) {
+client.me(function (err, res) {
   console.log(err, res)
 });
 ```
@@ -83,15 +99,22 @@ If it is successful, the result will be a JSON object with the following propert
   name: "yabapmatt",
   scope: ["vote"],
   user: "yabapmatt",
-  user_metadata: {},
   _id: "yabapmatt"
 }
+```
+
+### Logout
+The revokeToken() method will log the current user out of your application by revoking the access token provided to your app for that user: 
+```
+client.revokeToken(function (err, res) {
+  console.log(err, res)
+});
 ```
 
 ### Vote
 The vote() method will cast a vote on the specified post or comment from the current user:
 ```
-api.vote(voter, author, permlink, weight, function (err, res) {
+client.vote(voter, author, permlink, weight, function (err, res) {
   console.log(err, res)
 });
 ```
@@ -105,59 +128,58 @@ Parameters:
 ### Comment
 The comment() method will post a comment on an existing post or comment from the current user:
 ```
-api.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function (err, res) {
+client.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function (err, res) {
   console.log(err, res)
 });
 ```
 The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
 
-### Delete Comment
+### Delete comment
 The deleteComment() method will mark a comment as deleted.
 ```
-api.deleteComment(author, permlink, function (err, res) {
+client.deleteComment(author, permlink, function (err, res) {
   console.log(err, res)
 })
 ```
 
-### Logout
-The revokeToken() method will log the current user out of your application by revoking the access token provided to your app for that user: 
+### Custom json
 ```
-api.revokeToken(function (err, res) {
+client.customJson(requiredAuths, requiredPostingAuths, id, json, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Reblog
 ```
-api.reblog(account, author, permlink, function (err, res) {
+client.reblog(account, author, permlink, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Follow
 ```
-api.follow(follower, following, function (err, res) {
+client.follow(follower, following, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Unfollow
 ```
-api.unfollow(unfollower, unfollowing, function (err, res) {
+client.unfollow(unfollower, unfollowing, function (err, res) {
   console.log(err, res)
 });
 ```
 
 ### Ignore
 ```
-api.ignore(follower, following, function (err, res) {
+client.ignore(follower, following, function (err, res) {
   console.log(err, res)
 });
 ```
 
-### Claim Reward Balance
+### Claim reward balance
 ```
-api.claimRewardBalance(account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
+client.claimRewardBalance(account, rewardSteem, rewardSbd, rewardVests, function (err, res) {
   console.log(err, res)
 });
 ```
