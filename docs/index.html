@@ -102,7 +102,7 @@ window.onload = function() {
       isLoading: false,
       txId: null,
       error: null,
-      useSteemKeychain: window && !window._steemconnect && window.steem_keychain,
+      useSteemKeychain: steemconnect.useSteemKeychain(),
       parentAuthor: 'steemguest',
       parentPermlink: '4lx1se-test-post',
 
