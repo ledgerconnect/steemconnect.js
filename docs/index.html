@@ -135,7 +135,7 @@ window.onload = function() {
         if (this.form.username) loginObj.username = this.form.username;
 
         client.login(loginObj, function(err, token) {
-          console.log('Log in result', err, result);
+          console.log('Log in result', err, token);
           if (err) return self.isLoading = false;
           client.setAccessToken(token);
 
