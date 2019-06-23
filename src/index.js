@@ -4,8 +4,8 @@ import { encodeOps } from 'steem-uri';
 const BASE_URL = 'https://steemconnect.com';
 const API_URL = 'https://api.steemconnect.com';
 
-const hasChromeExtension = () => window && window._steemconnect;
-const hasSteemKeychain = () => window && window.steem_keychain;
+const hasChromeExtension = () => typeof window != "undefined" && window._steemconnect;
+const hasSteemKeychain = () => typeof window != "undefined" && window.steem_keychain;
 const useSteemKeychain = () => !hasChromeExtension() && hasSteemKeychain();
 
 class Client {
