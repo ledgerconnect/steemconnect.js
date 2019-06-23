@@ -4,8 +4,9 @@ import { encodeOps } from 'steem-uri';
 const BASE_URL = 'https://steemconnect.com';
 const API_URL = 'https://api.steemconnect.com';
 
-const hasChromeExtension = () => typeof window != "undefined" && window._steemconnect;
-const hasSteemKeychain = () => typeof window != "undefined" && window.steem_keychain;
+const isBrowser = () => typeof window !== 'undefined' && window;
+const hasChromeExtension = () => isBrowser() && window._steemconnect;
+const hasSteemKeychain = () => isBrowser() && window.steem_keychain;
 const useSteemKeychain = () => !hasChromeExtension() && hasSteemKeychain();
 
 class Client {
@@ -95,7 +96,7 @@ class Client {
           return cb(null, token);
         },
       );
-    } else if (window) {
+    } else if (isBrowser()) {
       window.location = this.getLoginURL(options.state);
     }
   }
