@@ -1,13 +1,47 @@
 import fetch from 'cross-fetch';
-import { encodeOps } from 'steem-uri';
+import { encodeTx, encodeOps, encodeOp } from 'steem-uri';
 
 const BASE_URL = 'https://steemconnect.com';
+const BETA_URL = 'https://beta.steemconnect.com';
 const API_URL = 'https://api.steemconnect.com';
 
 const isBrowser = () => typeof window !== 'undefined' && window;
+
 const hasChromeExtension = () => isBrowser() && window._steemconnect;
+
 const hasSteemKeychain = () => isBrowser() && window.steem_keychain;
+
 const useSteemKeychain = () => !hasChromeExtension() && hasSteemKeychain();
+
+const sendTransaction = (tx, params, cb) => {
+  const uri = encodeTx(tx, params);
+  if (hasChromeExtension()) return window._steemconnect.sign(uri, cb);
+  if (isBrowser()) {
+    const win = window.open(uri.replace('steem://', `${BETA_URL}/`), '_blank');
+    return win.focus();
+  }
+  return uri;
+};
+
+const sendOperations = (ops, params, cb) => {
+  const uri = encodeOps(ops, params);
+  if (hasChromeExtension()) return window._steemconnect.sign(uri, cb);
+  if (isBrowser()) {
+    const win = window.open(uri.replace('steem://', `${BETA_URL}/`), '_blank');
+    return win.focus();
+  }
+  return uri;
+};
+
+const sendOperation = (op, params, cb) => {
+  const uri = encodeOp(op, params);
+  if (hasChromeExtension()) return window._steemconnect.sign(uri, cb);
+  if (isBrowser()) {
+    const win = window.open(uri.replace('steem://', `${BETA_URL}/`), '_blank');
+    return win.focus();
+  }
+  return uri;
+};
 
 class Client {
   constructor(config) {
@@ -286,6 +320,9 @@ export default {
   Client,
   Initialize,
   sign,
+  sendTransaction,
+  sendOperations,
+  sendOperation,
   hasChromeExtension,
   hasSteemKeychain,
   useSteemKeychain,
