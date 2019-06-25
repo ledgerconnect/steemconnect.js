@@ -15,32 +15,35 @@ const useSteemKeychain = () => !hasChromeExtension() && hasSteemKeychain();
 
 const sendTransaction = (tx, params, cb) => {
   const uri = encodeTx(tx, params);
+  const webUrl = uri.replace('steem://', `${BETA_URL}/`);
   if (hasChromeExtension()) return window._steemconnect.sign(uri, cb);
-  if (isBrowser()) {
-    const win = window.open(uri.replace('steem://', `${BETA_URL}/`), '_blank');
+  if (cb && isBrowser()) {
+    const win = window.open(webUrl, '_blank');
     return win.focus();
   }
-  return uri;
+  return webUrl;
 };
 
 const sendOperations = (ops, params, cb) => {
   const uri = encodeOps(ops, params);
+  const webUrl = uri.replace('steem://', `${BETA_URL}/`);
   if (hasChromeExtension()) return window._steemconnect.sign(uri, cb);
-  if (isBrowser()) {
-    const win = window.open(uri.replace('steem://', `${BETA_URL}/`), '_blank');
+  if (cb && isBrowser()) {
+    const win = window.open(webUrl, '_blank');
     return win.focus();
   }
-  return uri;
+  return webUrl;
 };
 
 const sendOperation = (op, params, cb) => {
   const uri = encodeOp(op, params);
+  const webUrl = uri.replace('steem://', `${BETA_URL}/`);
   if (hasChromeExtension()) return window._steemconnect.sign(uri, cb);
-  if (isBrowser()) {
-    const win = window.open(uri.replace('steem://', `${BETA_URL}/`), '_blank');
+  if (cb && isBrowser()) {
+    const win = window.open(webUrl, '_blank');
     return win.focus();
   }
-  return uri;
+  return webUrl;
 };
 
 class Client {
