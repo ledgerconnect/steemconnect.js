@@ -63,8 +63,8 @@ class Client {
     return this;
   }
 
-  setApiURL(apiURL) {
-    this.apiURL = apiURL;
+  setApiURL(url) {
+    this.apiURL = url;
     return this;
   }
 
@@ -73,13 +73,8 @@ class Client {
     return this;
   }
 
-  setCallbackURL(app) {
-    this.app = app;
-    return this;
-  }
-
-  callbackURL(callbackURL) {
-    this.callbackURL = callbackURL;
+  setCallbackURL(url) {
+    this.callbackURL = url;
     return this;
   }
 
