@@ -49,7 +49,7 @@ var client = new steemconnect.Client({
 });
 ```
 Parameters:
-- __app__: This is the name of the app that was registered in the SteemConnect V2 dashboard
+- __app__: This is the name of the steem account associated with the app that was registered on the SteemConnect dashboard.
 - __callbackURL__: This is the URL that users will be redirected to after interacting with SteemConnect. It must be listed in the "Redirect URI(s)" list in the app settings EXACTLY the same as it is specified here
 - __accessToken__: If you have an oauth2 access token for this user already you can specify it here, otherwise you can leave it and set it later using steemconnect.setAccessToken(accessToken).
 - __scope__: This is a list of operations the app will be able to access on the user's account. For a complete list of scopes see: [https://github.com/bonustrack/steemconnect/wiki/OAuth-2#scopes](https://github.com/bonustrack/steemconnect/wiki/OAuth-2#scopes)
